@@ -7,7 +7,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 3:
-        print "Cannot continue because video and example arguments are empty. Use this command like: python qbe.py VIDEO_ID EXAMPLE_IMAGE_FILE [MIN_MATCH_COUNT]"
+        print "Cannot continue because video and example arguments are empty. Use this command like: python query_by_example.py VIDEO_ID EXAMPLE_IMAGE_FILE [MIN_MATCH_COUNT]"
         exit(-1)
     else:
         minMatchCount = 50
@@ -41,14 +41,7 @@ if __name__ == "__main__":
                 pts = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]]).reshape(-1, 1, 2)
                 dst = cv2.perspectiveTransform(pts, M)
 
-                video_frames[index] = cv2.polylines(video_frames[index], [np.int32(dst)], True, 255, 3, cv2.LINE_AA)
-
-                draw_params = dict(matchColor=(0, 255, 0),  # draw matches in green color
-                                   singlePointColor=None,
-                                   matchesMask=matchesMask,  # draw only inliers
-                                   flags=2)
-
-                img3 = cv2.drawMatches(query, query_features[0], video_frames[index], f[0], good, None, **draw_params)
+                img3 = cv2.polylines(img3, [np.int32(dst)], True, 255, 3, cv2.LINE_AA)
 
                 cv2.imshow("Frame - " + str(frameNumber), img3)
                 cv2.waitKey(0)

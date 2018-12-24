@@ -2,36 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2988db81-f7b7-4d50-b295-ae6b3077d059" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/engine/database_operations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/engine/database_operations/feature.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/engine/extract_feature_from_video.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/cli/error_404.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/cli/error_db.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/cli/error_exception.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/cli/error_general.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/cli/error_php.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/cli/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/html/error_404.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/html/error_db.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/html/error_exception.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/html/error_general.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/html/error_php.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/html/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/errors/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/search-error.tpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/search-result.tpl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/application/views/search.tpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/via-search-module.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/via-search-module.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/frame_operations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/frame_operations/feature.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/qbe.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/tiger.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/tiger.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/video_operations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/viasearch/video_operations/applier.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/qbe.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/query_by_example.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/test.sql" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,10 +19,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/engine/qbe.py">
+        <entry file="file://$PROJECT_DIR$/engine/query_by_example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="35" column="79" lean-forward="true" selection-start-line="35" selection-start-column="79" selection-end-line="35" selection-end-column="79" />
+            <state relative-caret-position="288">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -82,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/engine/database_operations/feature.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="324">
-              <caret line="20" column="43" lean-forward="true" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+              <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -91,7 +64,7 @@
         <entry file="file://$PROJECT_DIR$/engine/frame_operations/feature.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="126">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
         </entry>
@@ -155,6 +128,7 @@
         <option value="$PROJECT_DIR$/engine/database_operations/feature.py" />
         <option value="$PROJECT_DIR$/engine/extract_feature_from_video.py" />
         <option value="$PROJECT_DIR$/engine/qbe.py" />
+        <option value="$PROJECT_DIR$/engine/query_by_example.py" />
       </list>
     </option>
   </component>
@@ -288,12 +262,12 @@
       <workItem from="1545508358959" duration="292000" />
       <workItem from="1545607543166" duration="9775000" />
       <workItem from="1545619541165" duration="6260000" />
-      <workItem from="1545626192379" duration="14976000" />
+      <workItem from="1545626192379" duration="15958000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44555000" />
+    <option name="totallyTimeSpent" value="45537000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-2" width="1920" height="1044" extended-state="6" />
@@ -303,7 +277,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49946582" weight="0.32932165" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49893162" weight="0.32932165" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946582" weight="0.32932165" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -312,7 +286,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5005342" side_tool="true" visible="true" weight="0.32932165" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50106835" side_tool="true" visible="true" weight="0.32932165" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.3286026" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -337,14 +311,14 @@
     <entry file="file://$PROJECT_DIR$/engine/database_operations/feature.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
-          <caret line="20" column="43" lean-forward="true" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+          <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/engine/frame_operations/feature.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
@@ -365,10 +339,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/engine/qbe.py">
+    <entry file="file://$PROJECT_DIR$/engine/test.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/engine/query_by_example.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="35" column="79" lean-forward="true" selection-start-line="35" selection-start-column="79" selection-end-line="35" selection-end-column="79" />
+        <state relative-caret-position="288">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
