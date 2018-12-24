@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2988db81-f7b7-4d50-b295-ae6b3077d059" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engine/qbe.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine/query_by_example.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engine/test.sql" beforeDir="false" />
-    </list>
+    <list default="true" id="2988db81-f7b7-4d50-b295-ae6b3077d059" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,12 +258,12 @@
       <workItem from="1545508358959" duration="292000" />
       <workItem from="1545607543166" duration="9775000" />
       <workItem from="1545619541165" duration="6260000" />
-      <workItem from="1545626192379" duration="15958000" />
+      <workItem from="1545626192379" duration="16017000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45537000" />
+    <option name="totallyTimeSpent" value="45596000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-2" width="1920" height="1044" extended-state="6" />
