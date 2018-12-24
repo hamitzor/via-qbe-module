@@ -1,0 +1,38 @@
+.bg-default {
+  background-color: #eff4ff;
+}
+
+.video-list {
+  div.card {
+    width: 250px;
+
+    span.date {
+      color: #7c7e86;
+      font-size: 12px;
+    }
+
+    .card-text {
+      font-size: 14px;
+      line-height: 20px;
+      height: 100px;
+      color: #4e4f54;
+      overflow: hidden;
+    }
+
+
+  }
+}
+.table .thead-dark th {
+  color: #fff;
+  background-color: #343a40;
+  border-color: #343a40;
+}
+
+img.searched-example{
+  height: 300px;
+}
+
+span.time-found{
+  color: #4d5c71;
+}
+

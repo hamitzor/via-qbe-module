@@ -1,0 +1,324 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: thenrerise
+ * Date: 8/20/2018
+ * Time: 12:47 AM
+ */
+
+
+class Lang_turkish
+{
+  public $home = "Anasayfa";
+  public $about = "Hakkımızda";
+  public $activities = "Etkinlikler";
+  public $activities_in_category = "Etkinlikleri";
+  public $activity_centers = "Etkinlik Merkezleri";
+  public $contact = "İletişim";
+  public $sign_up = "Üye Ol";
+  public $sign_in = "Giriş Yap";
+  public $customer_services = "Müşteri Hizmetleri";
+  public $footer_logo_phrase = "Yeni blog yazılarımızla her zaman güncel kalın";
+  public $sign_in_with_social = "Sosyal medya hesabınla giriş yap";
+  public $sign_in_with_email = "Mail adresi ile giriş yap :";
+  public $enter_email = "E-Posta adresiniz";
+  public $enter_password = "Parolanızı giriniz";
+  public $remember_me = "Beni hatırla";
+  public $forgot_password = "Parolamı unuttum";
+  public $create_new_account = "Yeni hesap oluştur :";
+  public $enter_account_info = "Üyelik bilgilerinizi giriniz";
+  public $enter_name_surname = "Adınız ve soyadınız";
+  public $name = "Adınız";
+  public $surname = "Soyadınız";
+  public $enter_tckimlik_no = "TC kimlik numaranız";
+  public $enter_password_again = "Parolanızı tekrar giriniz";
+  public $agree_tos = "<span class='tos'>Üyelik sözleşmesini</span><span> okudum ve kabul ediyorum</span>";
+  public $agree_sale_contract = "<span class='dsc'>Mesafeli Satış Sözleşmesini</span><span> okudum ve kabul ediyorum</span>";
+  public $enter_phone = "Telefon numaranız";
+  public $contact_us = "Bize Ulaşın";
+  public $enterprise_membership = "Kurumsal Üyelik";
+  public $enterprise_membership_desc = "Kurumsal üye olarak kendi etkinliklerinizi oluşturabilirsiniz";
+  public $site_map = "Site Haritası";
+  public $create_activity = "Etkinlik Oluştur";
+  public $copyright_phrase = "Copyright &#169; Tüm hakları saklıdır";
+  public $yes = "Evet";
+  public $no = "Hayır";
+  public $okay = "Tamam";
+  public $cancel = "Vazgeç";
+  public $send = "Gönder";
+  public $no_such_email = "Girilen e-posta adresi sistemimizde kayıtlı değildir";
+  public $filter = "Filtrele";
+  public $search = "Ara";
+  public $search_activity = "Etkinlik ya da kurs ara...";
+  public $specify_filter_options = "Filtre ayarlarını belirleyiniz :";
+  public $search_for = " için ara";
+  public $only_search_quota = "Sadece kontejyan müsaitliği olanları ara";
+  public $specify_age = "Yaş aralığı belirle";
+  public $specify_distance_range = "Arama mesafesi belirle";
+  public $specify_price = "Fiyat aralığı belirle";
+  public $how_does_work = "Nasıl Çalışır?";
+  public $how_does_work_desc = "En iyi etkinlikleri sizin için tek bir uygulamada topladık";
+  public $explore_activities_around = "Çevrendeki Etkinlikleri Gör";
+  public $explore_activities_around_desc = "GoodParents uygulamasını indir. Yakınında ve dünyada ne etkinlikler var anında gör.";
+  public $see_activity_comments = "Etkinlik Yorumlarını Oku";
+  public $see_activity_comments_desc = "GoodParents uygulamasını indir. Yakınında ve dünyada ne etkinlikler var anında gör.";
+  public $buy_safely = "Güvenle Satın Al";
+  public $buy_safely_desc = "Beğendiğin etkinliğe anında yer ayırt bilet satın al ve kayıt tamam.";
+  public $blog_icon_desc = "Deneyimli anne bloggerlar hergün sizin için yazıyor.<br />Sorularınızı cevaplıyor ve pratik bilgiler veriyor.";
+  public $months_old = "Aylık";
+  public $years_old = "Yaş";
+  public $score = "Puan";
+  public $comments = "Yorum";
+  public $comment = "Yorum";
+  public $dance = "Dans";
+  public $travel = "Gezi";
+  public $camp = "Kamp";
+  public $concert = "Konser";
+  public $medical = "Sağlık";
+  public $art = "Sanat";
+  public $sport = "Spor";
+  public $see_all = "Tümünü gör";
+  public $popular_activities = "Popüler Etkinlikler";
+  public $activity_details = "Etkinlik Detayları";
+  public $map = "Harita";
+  public $photos = "Fotoğraflar";
+  public $previous = "Önceki";
+  public $next = "Sonraki";
+  public $points = "Puanlama";
+  public $organization_owner = "Organizasyon Sahibi:";
+  public $date = "Tarih";
+  public $duration = "Süre";
+  public $days = "Gün";
+  public $buy = "Satın Al";
+  public $more = "Daha Fazla";
+  public $dates_and_hours = "Saatler";
+  public $commentS = "Yorumlar";
+  public $noteS = "Notlar";
+  public $give_score_now = "Şimdi puan ver";
+  public $share = "Paylaş";
+  public $sign_in_to_comment_and_give_score = "Puan vermek ve yorum yapmak için lütfen";
+  public $sign_in_to = "giriş yapınız";
+  public $other_activities_of = " tarafından düzenlenen diğer etkinliklere göz atın:";
+  public $activities_of = " tarafından düzenlenen etkinliklere göz atın:";
+  public $no_activities_of = " tarafından düzenlenen etkinlik bulunmamaktadır.";
+  public $view = "İncele";
+  public $profile_point = "Profil Puanı";
+  public $enter_comment = "Yorumunuzu giriniz...";
+  public $tr = "Türkçe";
+  public $en = "İngilizce";
+  public $error_during_search = "Arama sırasında bir hata oluştu; lütfen tekrar deneyiniz";
+  public $no_such_activity_found = "Arama kriterlerine uygun etkinlik bulunamadı";
+  public $no_parameter_suppiled = "Parametre belirlemediniz";
+  public $sign_out = "Çıkış";
+  public $owner_info = "Etkinlik Merkezi Bilgileri";
+  public $category = "Kategori";
+  public $sub_category = "Alt kategori";
+  public $most_popular = "En Popüler";
+  public $most_recent = "En Son Eklenen";
+  public $ascending_price = "Fiyata Göre Artan";
+  public $descending_price = "Fiyata Göre Azalan";
+  public $most_liked = "En Çok Beğenilen";
+  public $search_result = "Arama Sonuçları";
+  public $empty_search_result = "Üzgünüz, belirlenen kriterlere uygun bir etkinlik bulunamamıştır";
+  public $education = "Eğitim";
+  public $music = "Müzik";
+  public $education_activities = "Eğitim Etkinlikleri";
+  public $art_activities = "Sanat Etkinlikleri";
+  public $dance_activities = "Dans Etkinlikleri";
+  public $sports_activities = "Spor Etkinlikleri";
+  public $music_activities = "Müzik Etkinlikleri";
+  public $medical_activitiesivities = "Sağlık Etkinlikleri";
+  public $travel_activities = "Gezi Etkinlikleri";
+  public $sign_up_with_social = "Sosyal medya hesabınla üye ol";
+  public $enter_address = "Adresiniz";
+  public $after_social_register_phrase = "Üyeliği tamamlamak için aşağıdaki bilgileri girmen gerekli.";
+  public $select_an_hour = "Lütfen devam etmek için bir seans seçiniz";
+  public $sessions = "Seanslar";
+  public $buy_to_comment = "Yorum paylaşmak için bu etkinliği satın almış olmalısınız";
+  public $buy_to_like = "Beğenmek için bu etkinliği satın almış ve giriş yapmış olmalısınız";
+  public $sort = "Sırala";
+  public $show_hours = "Saat ve tarihleri görüntüle";
+  public $popular = "Popüler";
+  public $contact_owners_by_phone_or_mail = "Etkinlik merkezleri ile telefon veya mail yoluyla iletişime geçebilirsiniz.";
+  public $sort_a_to_z = "A'dan Z'ye sırala";
+  public $sort_z_to_a = "Z'den A'ya sırala";
+  public $address = "Adres";
+  public $city = "Şehir";
+  public $phone = "Telefon";
+  public $email = "E-Posta";
+  public $facebook_integration_failed = "Facebook ile doğrulama başarısız oldu";
+  public $title = "Başlık";
+  public $offer = "Öneri";
+  public $complaint = "Şikayet";
+  public $message = "Mesaj";
+  public $contact_us_phrase = "Müşterilerimiz ile doğrudan çalışıyoruz. Aklınızda bir proje varsa ya da iş birliği yapmak istiyorsanız; bize bir e-posta gönderebilir ya da ofisimizde bizi ziyaret edebilirsiniz.";
+  public $follow_us = "Bizi Takip Edin";
+  public $installment = "Taksit";
+  public $enter_credit_card_no = "Kredi Kartı Numarası";
+  public $credit_card_info = "Kredi Kartı Bilgileri";
+  public $add_credit_card = "Kredi Kartı Ekle";
+  public $saved_credit_cards = "Kayıtlı Kredi Kartları";
+  public $payment_details = "Ödeme Detayları";
+  public $num_of_people = "Kişi Sayısı";
+  public $month = "Ay";
+  public $year = "Yıl";
+  public $use_3d_secure = "3D Secure kullanmak istiyorum";
+  public $add_to_saved_credit_cards = "Kayıtlı kredi kartlarıma ekle";
+  public $monthly_payment = "Aylık Ödeme";
+  public $total_amount = "Toplam Tutar";
+  public $advance_payment = "Peşin";
+  public $information = "Bilgi";
+  public $payment_info_phrase = "Şu anda aşağıda bilgilerini gördüğünüz etkinlik için satın alma işlemi yapmaktasınız.";
+  public $num_of_participants = "Katılımcı Sayısı";
+  public $age = "Yaş";
+  public $about_activity = "Etkinlik Hakkında";
+  public $activity_date_and_hours = "Etkinlik Gün ve Saatleri";
+  public $installment_information = "Taksit Bilgileri";
+  public $payment_successful = "Ödeme Başarılı";
+  public $follow_us_on_social_media = "Sosyal Medya Hesaplarımızı Takip Edin";
+  public $follow_us_on_social_media_phrase = "Güncel etkinlikler, kampanyalar ve daha fazlasından haberdar olmak için<br> sosyal medya hesaplarımızı takip edebilirsiniz.";
+  public $payment_failed = "Ödeme Başarısız";
+  public $payment_failed_phrase = "Ödeme sırasında bir şeyler ters gitti, lütfen bankanızla iletişime geçiniz.";
+  public $hello = "Merhaba";
+  public $thank_you_for_order = "Siparişiniz için teşekkür ederiz";
+  public $order_details = "Sipariş Detayları";
+  public $activity_code = "Etkinlik Kodu";
+  public $share_this_code_only_activity_centers = "Bu kodu etkinlik merkezi ile paylaşmanız gerekmektedir";
+  public $activity_name = "Etkinlik İsmi";
+  public $activity_owner = "Etkinlik Merkezi";
+  public $activity_notes = "Etkinlik Notları";
+  public $ticket_no = "Bilet Numarası";
+  public $activity_address = "Etkinlik Adresi";
+  public $activity_date_and_hour = "Etkinlik Tarihi ve Saati";
+  public $return_home = "Anasayfaya Dön";
+  public $dont_close_tab = "Lütfen ödeme işlemi tamamlanana kadar tarayıcıyı kapatmayınız.";
+  public $quota_left = "Kalan Biletler";
+  public $payment_successful_phrase = "Satın alma işlemi başarıyla gerçekleştirilmiştir. Bu kodu sadece etkinlik sahibi ile paylaşınız.<br>Etkinlik kodlarınız:";
+  public $ticket_nos = "Bilet Numaraları";
+  public $no_terms_left = "Uygun seans kalmamıştır";
+  public $settings = "Ayarlar";
+  public $following = "Takip Edilen";
+  public $followers = "Takipçi";
+  public $upcoming_owned_activities = "Katılacağım Etkinlikler";
+  public $passed_owned_activities = "Katıldığım Etkinlikler";
+  public $options = "Seçenekler";
+  public $profile = "Profil";
+  public $update_details = "Bilgilerimi Güncelle";
+  public $change_password = "Parolamı Değiştir";
+  public $change_email = "E-Posta Adresimi Değiştir";
+  public $change_phone = "Telefon Numaramı Değiştir";
+  public $payment_settings = "Ödeme Ayarları";
+  public $saved_cards = "Kayıtlı Kartlarım";
+  public $family_settings = "Aile Ayarları";
+  public $parent_and_children = "Ebeveyn ve Çocuklar";
+  public $notification_and_permissions = "Bildirim ve İzinler";
+  public $notification_settings = "Bildirim Ayarları";
+  public $permissions = "İzinler";
+  public $blocked_users = "Engellenen Kullanıcılar";
+  public $change_name_surname_phrase = "İsminizi bir kereye mahsus değiştirebilirsiniz. Bu hakkınızı kullandıktan sonra bir daha isminizi değiştremezsiniz.";
+  public $save = "Kaydet";
+  public $change_password_phrase = "Parolanız en az 8 karakterden oluşmalıdır. Parolanızı lütfen kimseyle paylaşmayınız.";
+  public $current_password = "Mevcut Şifre";
+  public $new_password = "Yeni Şifreniz";
+  public $repeat_new_password = "Yeni Şifrenizi Tekrarlayınız";
+  public $change_email_phrase = "Bildirimler ve haberler mail adresinize yönlendirilir.";
+  public $delete_selected_credit_card = "Seçili Kartı Sil";
+  public $notification_new_activity = "Yeni etkinlik olduğunda bildirim gelsin";
+  public $notification_near_activity_events = "Yakınımdaki etkinliklerle ilgili gelişmelerden haberdar et";
+  public $notification_near_activity = "Etkinlik yakınından geçerken haber ver";
+  public $change_profile_photo = "Profil Fotoğrafımı Değiştir";
+  public $crop = "Kırp";
+  public $facebook_no_change_password = "Facebook Hesabınız ile giriş yaptığınız için parolanız bulunmamaktadır.";
+  public $facebook_no_change_email = "Facebook Hesabınız ile giriş yaptığınız için E-posta adresinizi değiştiremezsiniz";
+  public $pay_with_another_card = "Başka bir kart ile öde";
+  public $invalid_card = "Bu kart geçersizdir";
+  public $have_no_cards = "Kayıtlı kredi kartınız bulunmamaktadır";
+  public $has_no_comments = "Bu etkinliğe hiç yorum yapılmamıştır";
+  public $email_not_exist = "Bu E-Posta hesabı geçerli değildir";
+  public $verify_now = "Şimdi Doğrula";
+  public $email_information = "E-Posta Bilgileri";
+  public $not_verified = "Doğrulanmadı";
+  public $verified = "Doğrulandı";
+  public $phone_information = "Telefon Bilgileri";
+  public $gp_email_verification = "Good Parents E-Posta Doğrulaması";
+  public $new_registration = "Yeni Üyelik";
+  public $new_registration_phrase = "Üyeliğinin aktifleştirilmesi için son bir adım kaldı.";
+  public $activate = "Aktifleştir";
+  public $enter_sms_token = "Lütfen telefonunuza gönderilen 6 harfli doğrulama kodunu giriniz";
+  public $verify_token = "Doğrulama Kodu";
+  public $enter_email_for_reset = "Lütfen E-Posta adresinizi giriniz";
+  public $not_member = "Bu E-Posta adresi ile uyumlu bir hesap bulunamadı";
+  public $welcome = "Hoş Geldiniz";
+  public $welcome_phrase = "Good Parents üyeliğiniz başarıyla aktifleştirilmiştir.<br />Etkinlik satın almaya başlayabilirsiniz.";
+  public $go_site = "Siteye Git";
+  public $password_reset = "Parola Sıfırlama";
+  public $gp_password_reset = "Good Parents Parola Sıfırlama";
+  public $reset_password = "Parolamı Sıfırla";
+  public $password_reset_phrase = "Parolanızı sıfırlamak için aşağıdaki butona tıklayınız.";
+  public $enter_new_email = "Yeni E-Posta adresiniz";
+  public $enter_new_phone = "Yeni numaranızı giriniz";
+  public $change_phone_phrase = "SMS ile bilgilendirilmek için telefon numaranızı giriniz";
+
+  public $per_lesson = "Ders Başı";
+  public $per_month = "Aylık";
+  public $per_week = "Haftalık";
+  public $per_session = "Seans başı";
+  public $per_class = "Kur başı";
+  public $all = "Hepsi";
+  public $enter_no_for_installments = "Taksit seçenekleri kart bilgilerini girdikten sonra görüntülenecektir.";
+  public $no_installment_for_card = "Girilen kart için taksit seçeneği bulunmamaktadır";
+  public $your_goodparents_token = "Good Parents Doğrulama Kodunuz:";
+  public $details_of_purchased_activity = "Satılan Etlinliğin Sipariş Detayları";
+  public $name_surname = "Name Surname";
+  public $member_info_purchased_activity = "Etkinliği Satın Alan Müşteri Bilgileri";
+  public $ticket_count = "Satın alınan bilet sayısı";
+  public $total_purchase_number = "Toplam Satış";
+  public $leave_list = "listeden ayrıl";
+  public $click_for_contact_info = "Good Parents iletişim bilgileri için tıklayınız.";
+  public $tweet = "Tweetle";
+  public $do_search = "Arama Yap";
+  public $hours = "Saatler";
+  public $select_a_day = "Saatleri görmek için bir gün seçin";
+  public $notes_phrase = "Etkinlik başlama saatinden en az yarım saat önce alanda olunmalı. Mail çıktınızı ve kimliğinizi mutlaka getiriniz.";
+  public $email_verification = "E-Posta Doğrulama";
+  public $email_verification_phrase = "E-Posta doğrulaması için son bir adım kaldı.";
+  public $invalid_password_phrase = "Parolanız en az 6 karakterden oluşmalı, en az bir adet büyük harf, küçük harf ve rakam içermelidir.";
+  public $reset = "Sıfırla";
+  public $apply = "Uygula";
+  public $enter_ccv = "Kartınızın arkasındaki sayıların son 3 hanesi yazınız.";
+  public $thanks_for_feedback = "Geri bildiriminiz bize ulaşmıştır.<br />Düşüncelerinizi bizimle paylaştığınız için teşekkür ederiz.";
+  public $thank_you_feedback = "Geri bildirim için teşekkürler";
+  public $ders_basi = "Ücretimiz 1 dersi kapsamaktadır. Katılacağınız her ders için tekrar ücret ödemeniz gerekmektedir.";
+  public $aylik_sabit = "1 ay boyunca etkinlik detayında belirtilen belirli gün ve saatlerde, etkinliğe veya eğitime katılım hakkı sağlar. 1 ay boyunca toplam kullanım süresi etkinlik detayında belirtilmiştir.";
+  public $aylik_degisken="1 ay boyunca etkinlik merkezinin esnek olarak belirlediği katılım saatlerine, belirtilen başlangıç tarihinden itibaren katılım hakkı sağlar.";
+  public $paket_degisken_haftalik = "1 hafta boyunca etkinlik merkezinin esnek olarak belirlediği katılım saatlerine, belirtilen başlangıç tarihinden itibaren katılım hakkı sağlar.";
+  public $paket_sabit_haftalik = "1 hafta boyunca etkinlik detayında belirtilen belirli gün ve saatlerde, etkinliğe veya eğitime katılım hakkı sağlar. 1 hafta boyunca toplam kullanım süresi etkinlik detayında belirtilmiştir.";
+  public $seans ="Ücretimiz tek seansı kapsamaktadır. Katılacağınız her seans için ayrı ücret ödemeniz gerekmektedir.";
+  public $kur_degisken = "Etkinlik merkezinin kur olarak belirlediği toplam saat,ders,hafta ya da ay şeklinde belirlediği eğitim yada etkinlik sürecine esnek olarak katılım hakkı sağlar";
+  public $kur_sabit = "Etkinlik merkezinin kur olarak belirlediği toplam saat,ders,hafta ya da ay şeklinde belirlediği eğitim yada etkinlik sürecine etkinlik detayında belirtilen saatler arasında katılım hakkı sağlar";
+  public $starting_dates = "Etkinlik başlangıç tarihleri";
+  public $start_dates = "Başlangıç Tarihleri";
+  public $show_start_dates = "Başlangıç Tarihlerini Göster";
+
+  function purchase_sms($no)
+  {
+    return "Siparisiniz icin tesekkurler. Bilet Numarasi:" . $no . ". Iyi eglenceler dileriz!";
+  }
+
+  function number_of_activities_found($num)
+  {
+    return "Arama kriterlerine uygun " . $num . " etkinlik bulundu.";
+  }
+
+  function number_of_activities_found_in_category($cat)
+  {
+    return $cat . " kategorisindeki etkinlikler";
+  }
+
+  function you_currently_viewing_category($cat)
+  {
+    return "Şuanda \"<span class='text-uppercase font-weight-regular'>" . $cat . "</span>\" kategorisi sonuçlarını incelemektesiniz";
+  }
+
+
+}
