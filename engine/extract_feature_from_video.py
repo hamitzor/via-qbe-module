@@ -20,7 +20,8 @@ if __name__ == "__main__":
 
         video = cv2.VideoCapture(videoFile)
         out = applier.apply(video, feature.extract,
-                            {"frameSkipInterval": 3, "periodicallyCall": databaseFeature.insertFeature, "periodicallyCallInterval": 1})
+                            {"frameSkipInterval": 2, "periodicallyCall": databaseFeature.insertFeature, "periodicallyCallInterval": 1})
+
 
     elapsed_time = time.time() - start_time
     print "Finished in " + str(int(elapsed_time)) + "s"

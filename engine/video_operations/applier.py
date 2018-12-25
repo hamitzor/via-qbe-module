@@ -20,7 +20,7 @@ def apply(video, operation, options={}):
     while video.isOpened():
         ret, frame = video.read()
         if frame is None:
-            continue
+            break
 
         frameNumber = int(video.get(cv2.CAP_PROP_POS_FRAMES))
 

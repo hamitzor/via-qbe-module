@@ -27,4 +27,6 @@ def insertFeature(vals):
 
     mydb.query(sql)
 
+    mydb.commit()
+
     print str(featureCount) + " features inserted"
