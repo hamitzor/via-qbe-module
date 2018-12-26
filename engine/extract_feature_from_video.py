@@ -7,7 +7,7 @@ start_time = time.time()
 if __name__ == "__main__":
     import video_operations.applier as applier
     import frame_operations.feature as feature
-    import database_operations.feature as databaseFeature
+    import database_operations.db as db
     import sys
 
     if len(sys.argv) < 1:
@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
         video = cv2.VideoCapture(videoFile)
         applier.apply(video, feature.extract,
-                            {"frameSkipInterval": 2, "periodicallyCall": databaseFeature.insertFeature, "periodicallyCallInterval": 1})
+                            {"frameSkipInterval": 2, "periodicallyCall": db.insertFeature, "periodicallyCallInterval": 1})
 
 
     elapsed_time = time.time() - start_time
