@@ -1,0 +1,24 @@
+import cv2
+
+
+def extract(frame):
+    sift = cv2.xfeatures2d.SIFT_create()
+    kp, des = sift.detectAndCompute(frame, None)
+    return kp, des
+
+
+def match(des1, des2):
+    flann_index_kdtree = 0
+    index_params = dict(algorithm=flann_index_kdtree, trees=5)
+    search_params = dict(checks=50)
+
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+
+    matches = flann.knnMatch(des1, des2, k=2)
+
+    # store all the good matches as per Lowe's ratio test.
+    good = []
+    for m, n in matches:
+        if m.distance < 0.7 * n.distance:
+            good.append(m)
+    return good
