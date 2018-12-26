@@ -19,7 +19,7 @@ if __name__ == "__main__":
         print "Extracting features from ", videoFile, "with no options."
 
         video = cv2.VideoCapture(videoFile)
-        out = applier.apply(video, feature.extract,
+        applier.apply(video, feature.extract,
                             {"frameSkipInterval": 2, "periodicallyCall": databaseFeature.insertFeature, "periodicallyCallInterval": 1})
 
 

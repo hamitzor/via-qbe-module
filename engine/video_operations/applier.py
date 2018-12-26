@@ -2,7 +2,7 @@ def apply(video, operation, options={}):
     import cv2, sys, gc
     returnValue = []
 
-    def periodicallyCall():
+    def periodicallyCall(arg):
         pass
 
     if "periodicallyCall" in options:
