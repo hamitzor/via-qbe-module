@@ -1,58 +1,60 @@
-from search_modules.args import parser
+from args import parser
+import cv2
 
 args = parser.parse_args()
 
 
-def apply(video, operation, options=None):
-    if options is None:
-        options = {}
+def apply(video, operation=lambda x, y: None):
+    """A function that extracts frames and applies specified operations on them
 
-    import cv2
+        This function extracts the specified video into frames, converts those frames to gray color and exclusively initiates given operation
+        function with two parameters, frame and frame number:
+
+        Args:
+            video (:obj:`cv2.VideoCapture`): Video to be used.
+            operation (:obj:`function`): Operation to be applied on frames.
+
+        Returns:
+            :obj:`dict`: A dictionary of meta data of the video. This data consists of fps,
+        """
     import sys
-    import gc
 
-    return_value = []
 
-    def periodically_call(arg):
-        pass
+    fps = video.get(cv2.CAP_PROP_FPS)
 
-    if "periodically_call" in options:
-        periodically_call = options["periodically_call"]
+    frame_rate = args.rate
 
-    frame_skip_interval = 2
-
-    if "frame_skip_interval" in options:
-        frame_skip_interval = options["frame_skip_interval"]
 
     while video.isOpened():
         ret, frame = video.read()
-        if frame is None:
-            break
 
         frame_number = int(video.get(cv2.CAP_PROP_POS_FRAMES))
 
-        if 0 != frame_number % frame_skip_interval:
+        # if frame is None or it has reached the specified ending second, break.
+        if (frame is None) or (frame_number > fps * args.end):
+            break
+
+        # if it has not yet reached the specified beginning second, skip.
+        if frame_number < fps * args.begin:
+            continue
+
+        # this section provides frame rate flexibility. if frame number is divisible with frame rate skip that frame.
+        if 0 != frame_number % frame_rate:
             if frame_number == video.get(cv2.CAP_PROP_FRAME_COUNT):
                 break
             else:
                 continue
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        return_value.append({"data": operation(gray), "frame_number": frame_number})
 
-        if not args.quiet:
+        if not args.quiet and not args.api:
             sys.stdout.write("\r" + str(frame_number) + ". frame processed. ")
             sys.stdout.flush()
-
-        periodically_call(return_value)
-        return_value = []
-        gc.collect()
+        operation(gray, frame_number)
 
         if frame_number == video.get(cv2.CAP_PROP_FRAME_COUNT):
             break
 
-    if len(return_value) > 0:
-        periodically_call(return_value)
-
     video.release()
-    return 0
+
+    return {"fps": fps}
