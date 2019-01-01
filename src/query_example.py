@@ -40,9 +40,9 @@ if __name__ == "__main__":
     find = []
 
 
-    # function to be used as operation parameter in video.apply function
     def display_matches(frame, frame_no):
-
+        """function to be used as operation parameter in video.apply function
+                        """
         # get features between specied frame_no and frame_no + specified skip number
         features = database.get_video_features(frame_no, frame_no + int(args.skip) - 2)
 
