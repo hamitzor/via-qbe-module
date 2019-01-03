@@ -5,7 +5,6 @@ if __name__ == "__main__":
     parser.add_argument("example_file", help="Example image file to search inside the video")
     parser.add_argument("-m", "--min", type=float, help="minimum good features to reckon as match percentage: [0,1]", default=0.33)
     parser.add_argument("-w", "--wait", type=float, help="duration of showing successful matches in seconds", default=1.0)
-    parser.add_argument("-db", "--database", action="store_true", help="use database")
 
     # load command line arguments
     args = parser.parse_args()
@@ -91,7 +90,7 @@ if __name__ == "__main__":
                 global find
                 # save frame no and coordinates for api usage purposes
                 # @TODO extract coordinates
-                find.append({"frame_number": frame_no, "top_left": 0, "bottom_right": 0})
+                find.append({"frame_number": frame_no, "top_left": (0, 0), "bottom_right": (0, 0)})
 
                 # if command wasn't executed for api usage, display matches individually
                 if not args.api:
