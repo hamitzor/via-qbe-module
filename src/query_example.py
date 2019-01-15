@@ -90,7 +90,7 @@ if __name__ == "__main__":
                 global find
                 # save frame no and coordinates for api usage purposes
                 # @TODO extract coordinates
-                find.append({"frame_number": frame_no, "top_left": (0, 0), "bottom_right": (0, 0)})
+                find.append({"frame_number": frame_no})
 
                 # if command wasn't executed for api usage, display matches individually
                 if not args.api:
