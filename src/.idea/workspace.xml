@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5ea6af6-bc62-485e-8ac0-ffabe02556b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../sql/via-search-demo.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/query_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/query_example.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../media_files/image/bike.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../media_files/image/bird.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../media_files/image/human.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../media_files/image/human.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../media_files/image/tiger.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,11 +16,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/query_example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="92" column="55" selection-start-line="92" selection-start-column="55" selection-end-line="92" selection-end-column="55" />
+            <state relative-caret-position="860">
+              <caret line="87" column="132" lean-forward="true" selection-start-line="87" selection-start-column="132" selection-end-line="87" selection-end-column="132" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/search_modules/database.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="673">
+              <caret line="77" column="53" lean-forward="true" selection-start-line="77" selection-start-column="53" selection-end-line="77" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,13 +97,13 @@
         <option value="$PROJECT_DIR$/database_operations/db.py" />
         <option value="$PROJECT_DIR$/search_modules/db.py" />
         <option value="$PROJECT_DIR$/search_modules/config.py" />
-        <option value="$PROJECT_DIR$/search_modules/database.py" />
         <option value="$PROJECT_DIR$/search_modules/frame.py" />
         <option value="$PROJECT_DIR$/search_modules/util.py" />
         <option value="$PROJECT_DIR$/search_modules/video.py" />
         <option value="$PROJECT_DIR$/extract_feature.py" />
         <option value="$PROJECT_DIR$/search_modules/args.py" />
         <option value="$PROJECT_DIR$/query_example.py" />
+        <option value="$PROJECT_DIR$/search_modules/database.py" />
       </list>
     </option>
   </component>
@@ -106,6 +120,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -122,7 +137,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -179,17 +193,18 @@
       <workItem from="1546322412713" duration="115000" />
       <workItem from="1546512324228" duration="653000" />
       <workItem from="1547015671015" duration="981000" />
+      <workItem from="1547585129094" duration="787000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78173000" />
+    <option name="totallyTimeSpent" value="78960000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-2" width="1920" height="1044" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15848452" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16008538" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -263,16 +278,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sql.py" />
-    <entry file="file://$PROJECT_DIR$/search_modules/database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="42" column="4" lean-forward="true" selection-start-line="42" selection-start-column="4" selection-end-line="48" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/search_modules/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -303,8 +308,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/query_example.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="92" column="55" selection-start-line="92" selection-start-column="55" selection-end-line="92" selection-end-column="55" />
+        <state relative-caret-position="860">
+          <caret line="87" column="132" lean-forward="true" selection-start-line="87" selection-start-column="132" selection-end-line="87" selection-end-column="132" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/search_modules/database.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="673">
+          <caret line="77" column="53" lean-forward="true" selection-start-line="77" selection-start-column="53" selection-end-line="77" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
