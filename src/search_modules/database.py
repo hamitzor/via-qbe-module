@@ -43,14 +43,14 @@ def get_video_path(id):
     """Get video features with id
 
                 Args:
-                    id (int): VideoId to be used.
+                    id (int): VideoId to be used
                 Returns:
                     path (:obj:`str`): Video path
                 """
     table = Table('Videos')
 
     # Create sql object.
-    sql = MySQLQuery.from_('Videos').select('Path').where(table.VideoId == id)
+    sql = MySQLQuery.from_('Videos').select('FilePath').where(table.VideoId == id)
 
     # Extract sql string from sql object and execute.
     curr.execute(sql.get_sql())
@@ -61,11 +61,10 @@ def get_video_path(id):
 
 
 def get_video_features(begin, end):
-    """Get video path with id
-
+    """Get features from video from begin frame to end frame
             Args:
-                begin (int): Beginning FrameNo to be collected.
-                end (int): Ending FrameNo to be collected.
+                begin (int): Beginning FrameNo to be collected
+                end (int): Ending FrameNo to be collected
             Returns:
                 :obj:`tuple`: A tuple consist of list of key points and descriptors with corresponding indexes, respectively
             """

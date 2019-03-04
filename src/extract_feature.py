@@ -1,7 +1,8 @@
 if __name__ == "__main__":
     from search_modules.args import parser
 
-    parser.add_argument("video_file", help="Video file path that will be used for feature extraction")
+    parser.add_argument(
+        "video_id", help="VideoId value of the tupple that is going to be used for feature extraction")
 
     args = parser.parse_args()
 
@@ -13,12 +14,12 @@ if __name__ == "__main__":
 
     start_time = util.get_time()
 
-    video_file = args.video_file
+    video_file_path = database.get_video_path(args.video_id)
 
-    util.write("Extracting features from " + str(video_file))
+    util.write("Extracting features from " + str(video_file_path))
 
     # read video file to be used in video.apply function
-    video = cv2.VideoCapture(video_file)
+    video = cv2.VideoCapture(video_file_path)
 
     # call video.apply with specified video file, specified parameters and a lambda expression consist of database.insert_feature and frame.extract.
     # return value of frame.extract supplied to database.insert_feature which inserts features to database
