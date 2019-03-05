@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    from search_modules.args import parser
+    from modules.args import parser
 
     parser.add_argument(
         "video_id", type=int, help="VideoId of the video that example will search inside")
@@ -13,13 +13,13 @@ if __name__ == "__main__":
     # load command line arguments
     args = parser.parse_args()
 
-    from search_modules import util
+    from modules import util
     import cv2
     import numpy as np
     import ujson
-    from search_modules import video
-    from search_modules import frame as frame_operations
-    from search_modules import database
+    from modules import video
+    from modules import frame as frame_operations
+    from modules import database
     from operator import itemgetter
     from itertools import groupby
 

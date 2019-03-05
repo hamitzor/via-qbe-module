@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    from search_modules.args import parser
+    from modules.args import parser
 
     parser.add_argument(
         "video_id", help="VideoId value of the tupple that is going to be used for feature extraction")
@@ -7,10 +7,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     import cv2
-    from search_modules import util
-    from search_modules import video as applier
-    from search_modules import frame
-    from search_modules import database
+    from modules import util
+    from modules import video as applier
+    from modules import frame
+    from modules import database
 
     start_time = util.get_time()
 
