@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 04, 2019 at 05:42 PM
+-- Generation Time: Mar 06, 2019 at 09:49 AM
 -- Server version: 5.7.25-0ubuntu0.18.04.2
 -- PHP Version: 7.2.15-0ubuntu0.18.04.1
 
@@ -178,7 +178,7 @@ CREATE TABLE `Videos` (
 --
 
 INSERT INTO `Videos` (`VideoId`, `CreationDate`, `Title`, `Length`, `FileFormat`, `FileName`, `FileSize`, `FilePath`) VALUES
-(1, '2019-03-04 04:55:43', 'Demo', 60, 'mp4', 'demo.mp4', 8305, '/home/hamit/projects/python/via-search-module/media_files/video/demo.mp4');
+(1, '2019-03-04 04:55:43', 'Demo', 60, 'mp4', 'demo.mp4', 8305, '/home/hamit/via/media_source/video/demo.mp4');
 
 -- --------------------------------------------------------
 
