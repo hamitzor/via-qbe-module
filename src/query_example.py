@@ -19,10 +19,12 @@ if __name__ == "__main__":
     import ujson
     from modules import video
     from modules import frame as frame_operations
-    from modules import database
+    from modules.database import Database
     from operator import itemgetter
     from itertools import groupby
 
+    database = Database()
+    video_file_path = database.get_video(args.video_id)[7]
     start_time = util.get_time()
 
     util.write("Searching \"" + args.example_file +
@@ -35,11 +37,10 @@ if __name__ == "__main__":
     query_features = frame_operations.extract(query_image)
 
     # read video file to be used in video.apply function
-    video_file = cv2.VideoCapture(database.get_video_path(args.video_id))
+    video_file = cv2.VideoCapture(video_file_path)
 
     # read video for display purposes
-    video_file_display = cv2.VideoCapture(
-        database.get_video_path(args.video_id))
+    video_file_display = cv2.VideoCapture(video_file_path)
 
     # list that holds matches
     find = []
@@ -48,8 +49,7 @@ if __name__ == "__main__":
         """function to be used as operation parameter in video.apply function
                         """
         # get features between specied frame_no and frame_no + specified skip number
-        features = database.get_video_features(
-            frame_no, frame_no)
+        features = database.get_features(args.video_id, frame_no)
 
         # group features by frame no
         sort_key = itemgetter(3)
@@ -101,7 +101,7 @@ if __name__ == "__main__":
                 find.append({"frame_number": frame_no})
 
                 # if command wasn't executed for api usage, display matches individually
-                if not args.api:
+                if (not args.api) and (not args.no_display):
                     # format points from good matches for finding homography
                     query_points = np.float32(
                         [query_features[0][m.queryIdx].pt for m in good]).reshape(-1, 1, 2)

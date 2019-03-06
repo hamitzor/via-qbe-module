@@ -1,3 +1,4 @@
+"""Extract features from video."""
 if __name__ == "__main__":
     from modules.args import parser
 
@@ -10,11 +11,12 @@ if __name__ == "__main__":
     from modules import util
     from modules import video as applier
     from modules import frame
-    from modules import database
+    from modules.database import Database
 
     start_time = util.get_time()
 
-    video_file_path = database.get_video_path(args.video_id)
+    database = Database()
+    video_file_path = database.get_video(args.video_id)[7]
 
     util.write("Extracting features from " + str(video_file_path))
 
@@ -23,7 +25,7 @@ if __name__ == "__main__":
 
     # call video.apply with specified video file, specified parameters and a lambda expression consist of database.insert_feature and frame.extract.
     # return value of frame.extract supplied to database.insert_feature which inserts features to database
-    applier.apply(video, operation=lambda x, y: (database.insert_feature(frame.extract(x), y)), skip_amount=args.skip, begin=args.begin,
+    applier.apply(video, operation=lambda x, y: (database.insert_features(1, frame.extract(x), y)), skip_amount=args.skip, begin=args.begin,
                   end=args.end, info_function=util.info_function)
 
     util.passed_time(start_time, "Finished in")

@@ -1,82 +1,137 @@
+"""File holds Database class."""
+
 import mysql.connector
+from mysql.connector import errorcode
 import config
-# import pypika:https://github.com/kayak/pypika
-from pypika import MySQLQuery, Table, Field
-
-# connect to database
-database = mysql.connector.connect(
-    host=config.db_host,
-    user=config.db_user,
-    passwd=config.db_password,
-    database=config.db_database
-)
-
-curr = database.cursor()
 
 
-def insert_feature(features, frame_number):
-    """Inserts video features into VideoFeatures table
-                Args:
-                    features (:obj:`tuple`): Tuple of list of key points and list of descriptors with corresponding indexes, respectively.
-                    frame_number (int) frame number that feature list has extracted.
-                """
-    feature_count = 0
+class Database:
+    """Class that handles database operations."""
 
-    table = Table('VideoFeatures')
+    def __init__(self):
+        """Class Constructor."""
+        self.config = config
 
-    # Create sql object.
-    sql = MySQLQuery.into(table).columns('FrameNo', 'KeyPointPtX', 'KeyPointPtY', 'Descriptor')
+    def connect(self):
+        """Connect to database specified by config.
 
-    # Iterate over data and add insert part for every piece.
-    for i in range(len(features[0])):
-        feature_count = feature_count + 1
-        sql = sql.insert(frame_number, features[0][i].pt[0], features[0][i].pt[1], str(features[1][i].astype(int).tolist()).replace(" ", ""))
+        Raises:
+          ConnectionError -- Error raised while connecting
 
-    # Extract sql string from sql object and execute.
-    curr.execute(sql.get_sql())
-    database.commit()
+        Returns:
+          mysql.connection.MySQLConnection -- connection object
 
-    return True
+        """
+        try:
+            self.connection = mysql.connector.connect(
+                host=self.config.db_host,
+                user=self.config.db_user,
+                passwd=self.config.db_password,
+                database=self.config.db_database
+            )
+        except mysql.connector.Error as ConnectionError:
+            raise ConnectionError
 
+    def insert_features(self, video_id, features, frame_number):
+        """Insert specified features into VideoFeatures table.
 
-def get_video_path(id):
-    """Get video features with id
+        Arguments:
+          video_id {int} -- VideoId of the video that features are extracted from
+          features {:obj:`tuple`} -- Tuple of list of key points and list of descriptors with corresponding indices, respectively
+          frame_number {int} -- frame number that feature list had extracted
 
-                Args:
-                    id (int): VideoId to be used
-                Returns:
-                    path (:obj:`str`): Video path
-                """
-    table = Table('Videos')
+        Raises:
+          err -- Error raised while inserting features
 
-    # Create sql object.
-    sql = MySQLQuery.from_('Videos').select('FilePath').where(table.VideoId == id)
+        """
+        try:
+            self.connect()
+            curr = self.connection.cursor()
 
-    # Extract sql string from sql object and execute.
-    curr.execute(sql.get_sql())
+            sql = ("""INSERT INTO VideoFeatures 
+                   (FrameNo, KeyPointPtX, KeyPointPtY, Descriptor) 
+                   VALUES (%s, %s, %s, %s)""")
 
-    video = curr.fetchone()
+            sql_data = []
 
-    return video[0]
+            # Iterate over data format and append to sql_data
+            for i in range(len(features[0])):
+                sql_data.append((frame_number, features[0][i].pt[0], features[0][i].pt[1], str(
+                    features[1][i].astype(int).tolist()).replace(" ", "")))
 
+            curr.executemany(sql, sql_data)
+            first_row_id = curr.lastrowid
+            last_row_id = first_row_id + curr.rowcount - 1
 
-def get_video_features(begin, end):
-    """Get features from video from begin frame to end frame
-            Args:
-                begin (int): Beginning FrameNo to be collected
-                end (int): Ending FrameNo to be collected
-            Returns:
-                :obj:`tuple`: A tuple consist of list of key points and descriptors with corresponding indexes, respectively
-            """
-    table = Table('VideoFeatures')
+            sql = ("""INSERT INTO VideoVideoFeature 
+                   (VideoFeatureId, VideoId) 
+                   VALUES (%s, %s)""")
 
-    # Create sql object.
-    sql = MySQLQuery.from_('VideoFeatures').select("KeyPointPtX", "KeyPointPtY", "Descriptor", "FrameNo").where(
-        (table.FrameNo <= end) & (table.FrameNo >= begin))
+            sql_data = []
 
-    # Extract sql string from sql object and execute.
-    curr.execute(sql.get_sql())
+            # Iterate over data format and append to sql_data
+            for i in range(first_row_id, last_row_id):
+                sql_data.append((i, video_id))
 
-    features = curr.fetchall()
+            curr.executemany(sql, sql_data)
 
-    return features
+            self.connection.commit()
+        except mysql.connector.Error as err:
+            raise err
+        finally:
+            self.connection.close()
+
+    def get_features(self, video_id, frame_no):
+        """Get features from video from begin frame to end frame.
+
+        Arguments:
+          video_id {int} -- VideoId of the video that features are queried from
+          begin_frame {int} -- Beginnig frame
+          end_frame {int} -- Ending frame
+        """
+        try:
+            self.connect()
+            curr = self.connection.cursor()
+
+            sql = ("""SELECT KeyPointPtX, KeyPointPtY, Descriptor, FrameNo 
+                   FROM VideoFeatures 
+                   WHERE 
+                   (VideoFeatures.FrameNo = %s) 
+                   AND 
+                   (VideoFeatures.VideoFeatureId IN (SELECT VideoFeatureId from VideoVideoFeature WHERE VideoVideoFeature.VideoId = %s)) """)
+
+            sql_data = (frame_no, video_id)
+
+            curr.execute(sql, sql_data)
+            features = curr.fetchall()
+            return features
+        except mysql.connector.Error as err:
+            raise err
+        finally:
+            self.connection.close()
+
+    def get_video(self, id):
+        """Get features from video from begin frame to end frame.
+
+        Arguments:
+          video_id {int} -- VideoId of the video that features are queried from
+          begin_frame {int} -- Beginnig frame
+          end_frame {int} -- Ending frame
+        """
+        try:
+            self.connect()
+            curr = self.connection.cursor()
+
+            sql = ("""SELECT * 
+                   FROM Videos 
+                   WHERE Videos.VideoId = %s""")
+
+            sql_data = (id,)
+
+            curr.execute(sql, sql_data)
+            video = curr.fetchone()
+            return video
+        except mysql.connector.Error as err:
+            raise err
+        finally:
+            self.connection.close()

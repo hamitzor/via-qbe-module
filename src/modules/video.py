@@ -36,9 +36,7 @@ def apply(video, operation=lambda x, y: None, skip_amount=1, begin=0, end=214748
         if (frame is None) or (int(video.get(cv2.CAP_PROP_POS_MSEC) / 1000) > end):
             break
 
-        # call specified operation function, if it returns False, stop execution.
-        if not operation(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), frame_number):
-            break
+        operation(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), frame_number)
 
         # if it has reached the last frame, stop execution.
         if frame_number >= frame_count - 1:
