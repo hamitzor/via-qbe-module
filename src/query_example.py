@@ -28,8 +28,8 @@ if __name__ == "__main__":
     video_file_path = database.get_video(args.video_id, 'FilePath')
     start_time = time.time() * 1000
 
-    stdout.write("Searching \"" + args.example_file +
-                 "\" in the video with VideoId=" + str(args.video_id))
+    stdout.write("Searching %s in video with id = %s" %
+                 (args.example_file, args.video_id))
 
     # read query image
     query_image = cv2.imread(args.example_file, 0)

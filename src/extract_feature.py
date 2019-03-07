@@ -8,12 +8,9 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "video_id", help="VideoId value of the tupple that is going to be used for feature extraction")
-
     args = parser.parse_args()
-
     stdout = stdout.Stdout(args.api or args.quiet)
     start_time = time.time() * 1000
-
     database = database.Database()
     video_file_path = database.get_video(args.video_id, 'FilePath')
 

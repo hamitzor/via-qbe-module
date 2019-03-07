@@ -4,7 +4,7 @@ import cv2
 
 
 def apply(video, operation=lambda x, y: None, skip_amount=0, begin=0, end=2147483646, info_function=lambda x: None):  # pylint: disable=too-many-arguments
-    """Extract frames and applies specified operations on them.
+    """Extract frames and apply specified operation on them.
 
     This function extracts the specified video into frames, converts those frames to gray color and exclusively initiates given operation
     function with two parameters, frame and frame number.
@@ -26,7 +26,7 @@ def apply(video, operation=lambda x, y: None, skip_amount=0, begin=0, end=214748
     video.set(cv2.CAP_PROP_POS_MSEC, begin * 1000)
 
     while video.isOpened():
-        frame = video.read()[1]
+        _, frame = video.read()
 
         frame_number = int(video.get(cv2.CAP_PROP_POS_FRAMES))
 
