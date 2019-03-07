@@ -1,3 +1,5 @@
+"""Loads cli arguments."""
+
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -12,5 +14,7 @@ parser.add_argument("-e", "--end", type=int,
                     help="the last second to process (excluded)", default=2147483646)
 parser.add_argument("-b", "--begin", type=int,
                     help="the first second to process", default=0)
-parser.add_argument("-d", "--no-display", action="store_true",
-                    help="do not display matches")
+parser.add_argument("-d", "--display", action="store_true",
+                    help="display matches (gui required)")
+parser.add_argument("-f", "--display-features", action="store_true",
+                    help="display matched features along with matches (gui required)")

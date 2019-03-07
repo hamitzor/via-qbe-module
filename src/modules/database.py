@@ -1,16 +1,21 @@
 """File holds Database class."""
 
 import mysql.connector
-from mysql.connector import errorcode
-import config
+from modules import config
 
 
-class Database:
+class Database(object):
     """Class that handles database operations."""
 
     def __init__(self):
         """Class Constructor."""
         self.config = config
+        self.connection = None
+
+    def disconnect(self):
+        """Disconnect and remove connection."""
+        self.connection.close()
+        self.connection = None
 
     def connect(self):
         """Connect to database specified by config.
@@ -29,8 +34,8 @@ class Database:
                 passwd=self.config.db_password,
                 database=self.config.db_database
             )
-        except mysql.connector.Error as ConnectionError:
-            raise ConnectionError
+        except mysql.connector.Error as connection_error:
+            raise connection_error
 
     def insert_features(self, video_id, features, frame_number):
         """Insert specified features into VideoFeatures table.
@@ -79,7 +84,7 @@ class Database:
         except mysql.connector.Error as err:
             raise err
         finally:
-            self.connection.close()
+            self.disconnect()
 
     def get_features(self, video_id, frame_no):
         """Get features from video from begin frame to end frame.
@@ -108,30 +113,27 @@ class Database:
         except mysql.connector.Error as err:
             raise err
         finally:
-            self.connection.close()
+            self.disconnect()
 
-    def get_video(self, id):
-        """Get features from video from begin frame to end frame.
+    def get_video(self, video_id, field="*"):
+        """Get a video.
 
         Arguments:
-          video_id {int} -- VideoId of the video that features are queried from
-          begin_frame {int} -- Beginnig frame
-          end_frame {int} -- Ending frame
+          video_id {int} -- VideoId of the video
+          field {str} -- Particular field to be selected (default: "*")
         """
         try:
             self.connect()
             curr = self.connection.cursor()
 
-            sql = ("""SELECT * 
+            sql = """SELECT %s 
                    FROM Videos 
-                   WHERE Videos.VideoId = %s""")
+                   WHERE Videos.VideoId = %s""" % (field, video_id)
 
-            sql_data = (id,)
-
-            curr.execute(sql, sql_data)
+            curr.execute(sql)
             video = curr.fetchone()
-            return video
+            return video if field == "*" else video[0]
         except mysql.connector.Error as err:
             raise err
         finally:
-            self.connection.close()
+            self.disconnect()
