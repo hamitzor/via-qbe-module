@@ -8,6 +8,7 @@ if __name__ == "__main__":
     from operator import itemgetter
     from itertools import groupby
     import json
+    import os
 
     parser = args.parser
 
@@ -25,7 +26,14 @@ if __name__ == "__main__":
 
     stdout = stdout.Stdout(args.api or args.quiet)
     database = database.Database()
-    video_file_path = database.get_video(args.video_id, 'FilePath')
+
+    video_meta = database.get_video(args.video_id)
+    video_format = video_meta[4]
+    video_blob = video_meta[7]
+
+    # read video file to be used in video.apply function
+    video_file_path = video.write_base64(video_blob, video_format)
+
     start_time = time.time() * 1000
 
     stdout.write("Searching %s in video with id = %s" %
@@ -147,6 +155,7 @@ if __name__ == "__main__":
     if not args.display:
         print json.dumps(find, indent=3)
 
-    stdout.passed_time(start_time, "Process finished in")
+    os.remove(video_file_path)
+    stdout.passed_time(start_time, "Finished in")
 
     exit(0)

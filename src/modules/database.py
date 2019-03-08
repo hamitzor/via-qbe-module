@@ -37,13 +37,12 @@ class Database(object):
         except mysql.connector.Error as connection_error:
             raise connection_error
 
-    def insert_features(self, video_id, features, frame_number):
-        """Insert specified features into VideoFeatures table.
+    def insert_features(self, video_id, data):
+        """Insert specified data into VideoFeatures table.
 
         Arguments:
           video_id {int} -- VideoId of the video that features are extracted from
-          features {:obj:`tuple`} -- Tuple of list of key points and list of descriptors with corresponding indices, respectively
-          frame_number {int} -- frame number that feature list had extracted
+          data {:obj:`list` of :obj:`tuple`} -- List of rows
 
         Raises:
           err -- Error raised while inserting features
@@ -53,23 +52,16 @@ class Database(object):
             self.connect()
             curr = self.connection.cursor()
 
-            sql = ("""INSERT INTO VideoFeatures 
-                   (FrameNo, KeyPointPtX, KeyPointPtY, Descriptor) 
+            sql = ("""INSERT INTO VideoFeatures
+                   (FrameNo, KeyPointPtX, KeyPointPtY, Descriptor)
                    VALUES (%s, %s, %s, %s)""")
 
-            sql_data = []
-
-            # Iterate over data format and append to sql_data
-            for i in range(len(features[0])):
-                sql_data.append((frame_number, features[0][i].pt[0], features[0][i].pt[1], str(
-                    features[1][i].astype(int).tolist()).replace(" ", "")))
-
-            curr.executemany(sql, sql_data)
+            curr.executemany(sql, data)
             first_row_id = curr.lastrowid
             last_row_id = first_row_id + curr.rowcount - 1
 
-            sql = ("""INSERT INTO VideoVideoFeature 
-                   (VideoFeatureId, VideoId) 
+            sql = ("""INSERT INTO VideoVideoFeature
+                   (VideoFeatureId, VideoId)
                    VALUES (%s, %s)""")
 
             sql_data = []
@@ -91,24 +83,28 @@ class Database(object):
 
         Arguments:
           video_id {int} -- VideoId of the video that features are queried from
-          begin_frame {int} -- Beginnig frame
-          end_frame {int} -- Ending frame
+          frame_no {int} -- Number of frame that features are in
+
+        Raises:
+          err -- Error raised while getting features
+
         """
         try:
             self.connect()
             curr = self.connection.cursor()
 
-            sql = ("""SELECT KeyPointPtX, KeyPointPtY, Descriptor, FrameNo 
-                   FROM VideoFeatures 
-                   WHERE 
-                   (VideoFeatures.FrameNo = %s) 
-                   AND 
+            sql = ("""SELECT KeyPointPtX, KeyPointPtY, Descriptor, FrameNo
+                   FROM VideoFeatures
+                   WHERE
+                   (VideoFeatures.FrameNo = %s)
+                   AND
                    (VideoFeatures.VideoFeatureId IN (SELECT VideoFeatureId from VideoVideoFeature WHERE VideoVideoFeature.VideoId = %s)) """)
 
             sql_data = (frame_no, video_id)
 
             curr.execute(sql, sql_data)
             features = curr.fetchall()
+
             return features
         except mysql.connector.Error as err:
             raise err
@@ -121,18 +117,49 @@ class Database(object):
         Arguments:
           video_id {int} -- VideoId of the video
           field {str} -- Particular field to be selected (default: "*")
+
+        Raises:
+          err -- Error raised while getting video
+
         """
         try:
             self.connect()
             curr = self.connection.cursor()
 
-            sql = """SELECT %s 
-                   FROM Videos 
+            sql = """SELECT %s
+                   FROM Videos
                    WHERE Videos.VideoId = %s""" % (field, video_id)
 
             curr.execute(sql)
             video = curr.fetchone()
             return video if field == "*" else video[0]
+        except mysql.connector.Error as err:
+            raise err
+        finally:
+            self.disconnect()
+
+    def insert_video(self, data):
+        """Insert specified data into Videos table.
+
+          Arguments:
+            video_id {int} -- VideoId of the video that features are extracted from
+            data {:obj:`tuple`} -- Row to be inserted
+
+          Raises:
+            err -- Error raised while inserting features
+
+        """
+        try:
+            self.connect()
+            curr = self.connection.cursor()
+
+            sql = ("""INSERT INTO Videos
+                (Title, Length, Format, Name, Size,
+                Content, FPS, TotalFrame, Width, Height)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""")
+
+            curr.execute(sql, data)
+            self.connection.commit()
         except mysql.connector.Error as err:
             raise err
         finally:

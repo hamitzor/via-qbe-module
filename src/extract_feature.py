@@ -1,8 +1,9 @@
 """Script to extract features from video."""
 if __name__ == "__main__":
-    from modules import args, stdout, video as applier, feature, database
+    from modules import args, stdout, video, feature, database
     import cv2
     import time
+    import os
 
     parser = args.parser
 
@@ -12,18 +13,39 @@ if __name__ == "__main__":
     stdout = stdout.Stdout(args.api or args.quiet)
     start_time = time.time() * 1000
     database = database.Database()
-    video_file_path = database.get_video(args.video_id, 'FilePath')
-
-    stdout.write("Extracting features from " + str(video_file_path))
+    video_meta = database.get_video(args.video_id)
+    video_format = video_meta[4]
+    video_blob = video_meta[7]
 
     # read video file to be used in video.apply function
-    video = cv2.VideoCapture(video_file_path)
+    temp_file_path = video.write_base64(video_blob, video_format)
+    video_cap = cv2.VideoCapture(temp_file_path)
 
-    # call video.apply with specified video file, specified parameters and a lambda expression uses database.insert_feature and feature.extract.
-    # return value of feature.extract supplied to database.insert_feature which inserts features to database
-    applier.apply(video, operation=lambda x, y: database.insert_features(1, feature.extract(x), y), skip_amount=args.skip, begin=args.begin,
-                  end=args.end, info_function=stdout.progres_info)
+    def apply_operation(frame, frame_no):
+        """Extract features from frame and insert. This method will be passed to video.apply as operation argument"""
 
+        features = feature.extract(frame)
+        data = []
+        # Iterate over features format and append to data
+        for i in range(len(features[0])):
+            data.append((
+                frame_no,
+                features[0][i].pt[0],
+                features[0][i].pt[1],
+                str(features[1][i].astype(int).tolist()).replace(" ", "")
+            ))
+        database.insert_features(args.video_id, data)
+
+    stdout.write("Extracting features...")
+    # call video.apply with specified video file, specified parameters and a method named apply_operation uses database.insert_feature and feature.extract.
+    video.apply(video_cap,
+                operation=apply_operation,
+                skip_amount=args.skip,
+                begin=args.begin,
+                end=args.end,
+                info_function=stdout.progres_info)
+
+    os.remove(temp_file_path)
     stdout.passed_time(start_time, "Finished in")
 
     exit(0)
