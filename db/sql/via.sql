@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 06, 2019 at 09:49 AM
+-- Generation Time: Mar 09, 2019 at 05:36 AM
 -- Server version: 5.7.25-0ubuntu0.18.04.2
 -- PHP Version: 7.2.15-0ubuntu0.18.04.1
 
@@ -166,19 +166,16 @@ CREATE TABLE `Videos` (
   `VideoId` int(11) NOT NULL,
   `CreationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Title` varchar(256) NOT NULL,
-  `Length` int(11) NOT NULL,
-  `FileFormat` varchar(64) NOT NULL,
-  `FileName` varchar(256) NOT NULL,
-  `FileSize` int(11) NOT NULL,
-  `FilePath` varchar(256) NOT NULL
+  `Length` float NOT NULL,
+  `Format` varchar(64) NOT NULL,
+  `Name` varchar(256) NOT NULL,
+  `Size` int(11) NOT NULL,
+  `Content` longblob NOT NULL,
+  `FPS` float NOT NULL,
+  `TotalFrame` float NOT NULL,
+  `Width` int(11) NOT NULL,
+  `Height` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `Videos`
---
-
-INSERT INTO `Videos` (`VideoId`, `CreationDate`, `Title`, `Length`, `FileFormat`, `FileName`, `FileSize`, `FilePath`) VALUES
-(1, '2019-03-04 04:55:43', 'Demo', 60, 'mp4', 'demo.mp4', 8305, '/home/hamit/via/media_source/video/demo.mp4');
 
 -- --------------------------------------------------------
 
@@ -356,7 +353,7 @@ ALTER TABLE `VideoFeatures`
 -- AUTO_INCREMENT for table `Videos`
 --
 ALTER TABLE `Videos`
-  MODIFY `VideoId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `VideoId` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `VideoUser`
 --

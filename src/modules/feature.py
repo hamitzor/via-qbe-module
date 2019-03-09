@@ -44,3 +44,34 @@ def match(des1, des2):
             good.append(m)
 
     return good
+
+
+def get_homography_points(query_keypoints, train_keypoints, good, image):
+    """Find homograpy and return masked points.
+
+    Arguments:
+      query_keypoints {:obj:`list` of :obj:`cv2.KeyPoint`} -- Query keypoints
+      train_keypoints {:obj:`list` of :obj:`cv2.KeyPoint`} -- Train keypoints
+      good {:obj:`list` of :obj:`cv2.DMatch`} -- List of good matches
+      image {:obj:`numpy.ndarray`} -- Train frame
+    Returns:
+      :obj:`tuple` -- Tuple of masked points and mask
+
+    """
+    import numpy as np
+    # format points from good matches for finding homography
+    query_points = np.float32(
+        [query_keypoints[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
+    train_points = np.float32(
+        [train_keypoints[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
+
+    # find homography using RANSAC algorithm and collect the mask that specifies inliers and outliers
+    M, mask = cv2.findHomography(
+        query_points, train_points, cv2.RANSAC, 5.0)
+
+    h, w = image.shape
+    pts = np.float32(
+        [[0, 0], [0, h-1], [w-1, h-1], [w-1, 0]]).reshape(-1, 1, 2)
+    pts = cv2.perspectiveTransform(pts, M)
+
+    return (pts, mask)

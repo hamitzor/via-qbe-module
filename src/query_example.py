@@ -1,12 +1,13 @@
 """Script to be used for query by example."""
 if __name__ == "__main__":
-    from modules import args, stdout, video, feature, database
+    import time
+    start_time = time.time() * 1000
+
+    from modules import args, stdout, video, feature as feature_module, filesystem
+    from modules.database import database
     import cv2
     import numpy as np
     import ujson
-    import time
-    from operator import itemgetter
-    from itertools import groupby
     import json
     import os
 
@@ -25,71 +26,49 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     stdout = stdout.Stdout(args.api or args.quiet)
-    database = database.Database()
 
     video_meta = database.get_video(args.video_id)
+
     video_format = video_meta[4]
     video_blob = video_meta[7]
-
-    # read video file to be used in video.apply function
-    video_file_path = video.write_base64(video_blob, video_format)
-
-    start_time = time.time() * 1000
-
-    stdout.write("Searching %s in video with id = %s" %
-                 (args.example_file, args.video_id))
+    video_fps = video_meta[8]
+    video_total_frame = video_meta[9]
 
     # read query image
     query_image = cv2.imread(args.example_file, 0)
 
     # extract features from query image
-    query_features = feature.extract(query_image)
+    query_features = feature_module.extract(query_image)
 
-    # read video file to be used in video.apply function
-    video_file = cv2.VideoCapture(video_file_path)
-
-    video_file_display = None
+    video_cap_display = None
+    temp_file_path = None
 
     if args.display:
+        # read video blob and write into filesystem
+        temp_file_path = filesystem.write_base64(
+            video_blob, video_format)
         # read video for display purposes
-        video_file_display = cv2.VideoCapture(video_file_path)
+        video_cap_display = cv2.VideoCapture(temp_file_path)
 
     # list that holds matches
     find = []
 
-    def display_matches(_, frame_no):
+    def find_matches(frame_no, _):
         # get features between specied frame_no and frame_no + specified skip number
         features = database.get_features(args.video_id, frame_no)
-
-        # group features by frame no
-        sort_key = itemgetter(3)
-
-        result = []
-        for key, value in groupby(features, key=sort_key):
-            result.append(dict(frame_no=key, result=list(
-                (v[0], v[1], v[2]) for v in value)))
-
-        # iterate over features that grouped by frame no
-        for frame_result in result:
-
-            # extract frame no
-            frame_no = frame_result["frame_no"]
-
-            # extract features that located in frame no extracted above
-            frame_result = frame_result["result"]
-
+        if features:
             # container for formatted key points
             kp = []
             # container for formatted descriptors
             des = []
 
             # iterate over these features for formatting purposes
-            for frame_feature in frame_result:
+            for feature in features:
                 key_point = cv2.KeyPoint()
-                key_point.pt = (frame_feature[0], frame_feature[1])
+                key_point.pt = (feature[0], feature[1])
                 kp.append(key_point)
                 # decode json encoded list and append to des container
-                des.append(ujson.loads(frame_feature[2]))
+                des.append(ujson.loads(feature[2]))
 
             # cast list to numpy array for matching purposes
             des = np.asarray(des, np.float32)
@@ -98,36 +77,23 @@ if __name__ == "__main__":
             feature_set = (kp, des)
 
             # use frame.match function for matching and collect good matches
-            good = feature.match(query_features[1], feature_set[1])
+            good = feature_module.match(query_features[1], feature_set[1])
 
             # if number of good matches is greater than specified percentage of total number of features consider them as real match
-
             if len(good) > int(len(query_features[0]) * args.min):
-                # format points from good matches for finding homography
-                query_points = np.float32(
-                    [query_features[0][m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
-                train_points = np.float32(
-                    [feature_set[0][m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
-
-                # find homography using RANSAC algorithm and collect the mask that specifies inliers and outliers
-                M, mask = cv2.findHomography(
-                    query_points, train_points, cv2.RANSAC, 5.0)
-
-                h, w = query_image.shape
-                pts = np.float32(
-                    [[0, 0], [0, h-1], [w-1, h-1], [w-1, 0]]).reshape(-1, 1, 2)
-                dst = cv2.perspectiveTransform(pts, M)
+                pts, mask = feature_module.get_homography_points(
+                    query_features[0], feature_set[0], good, query_image)
 
                 # save frame no and coordinates
                 find.append(
-                    {"frame_no": frame_no, "corners": (dst[0][0].tolist(), dst[1][0].tolist(), dst[2][0].tolist(), dst[3][0].tolist())})
+                    {"frame_no": frame_no, "corners": (pts[0][0].tolist(), pts[1][0].tolist(), pts[2][0].tolist(), pts[3][0].tolist())})
 
                 if args.display:
                     # skip video file to the frame that match was found
-                    video_file_display.set(cv2.CAP_PROP_POS_FRAMES, frame_no)
+                    video_cap_display.set(cv2.CAP_PROP_POS_FRAMES, frame_no)
 
                     # read the frame
-                    _, frame = video_file_display.read()
+                    _, frame = video_cap_display.read()
 
                     matchesMask = mask.ravel().tolist()
 
@@ -137,7 +103,7 @@ if __name__ == "__main__":
                                        flags=2)
 
                     frame = cv2.polylines(
-                        frame, [np.int32(dst)], True, 255, 3, cv2.LINE_AA)
+                        frame, [np.int32(pts)], True, 255, 3, cv2.LINE_AA)
                     # draw matches with calculated parameters above
                     if args.display_features:
                         frame = cv2.drawMatches(
@@ -148,14 +114,25 @@ if __name__ == "__main__":
                     cv2.waitKey(int(args.wait * 1000))
                     cv2.destroyAllWindows()
 
+    stdout.write("Searching %s in video with id = %s" %
+                 (args.example_file, args.video_id))
+
+    apply_params = dict(
+        operation=find_matches,
+        skip_amount=args.skip,
+        begin=args.begin,
+        end=args.end,
+        info_function=stdout.progres_info
+    )
     # call video.apply with specified video file with specified parameters
-    video.apply(video_file, operation=display_matches, skip_amount=args.skip,
-                begin=args.begin, end=args.end, info_function=stdout.progres_info)
+    video.apply(None, video_total_frame, video_fps, **apply_params)
 
     if not args.display:
+        if not args.api:
+            print "\n"
         print json.dumps(find, indent=3)
 
-    os.remove(video_file_path)
+    if args.display:
+        os.remove(temp_file_path)
     stdout.passed_time(start_time, "Finished in")
-
     exit(0)

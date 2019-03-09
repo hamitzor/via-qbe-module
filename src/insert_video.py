@@ -1,6 +1,7 @@
-"""Script to extract features from video."""
+"""Script to add video to database."""
 if __name__ == "__main__":
-    from modules import args, stdout, database
+    from modules import args, stdout
+    from modules.database import database
     import cv2
     import time
     from os import path
@@ -17,8 +18,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     stdout = stdout.Stdout(False)
     start_time = time.time() * 1000
-    database = database.Database()
-
     stdout.write("Inserting video...")
     video_file = args.video_file
 
@@ -28,14 +27,14 @@ if __name__ == "__main__":
 
     # read video file to extract meta data
     video_cap = cv2.VideoCapture(video_file)
-    fps = int(video_cap.get(cv2.CAP_PROP_FPS))
-    total_frame = int(video_cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = video_cap.get(cv2.CAP_PROP_FPS)
+    total_frame = video_cap.get(cv2.CAP_PROP_FRAME_COUNT)
     width = int(video_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(video_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     video_cap.release()
 
     title = args.video_title
-    length = int((total_frame/fps)*1000.0)
+    length = (total_frame/fps)*1000
     name = path.basename(video_file)
     extension = path.splitext(name)[1]
     size = path.getsize(video_file)

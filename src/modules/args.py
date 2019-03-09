@@ -9,7 +9,7 @@ parser.add_argument("-a", "--api", action="store_true",
 parser.add_argument("-q", "--quiet", action="store_true",
                     help="suppress status messages to be printed on command like")
 parser.add_argument("-s", "--skip", type=float,
-                    help="amount of frames to skip before executing the next frame", default=5)
+                    help="number of frames to skip before processing next frame", default=5)
 parser.add_argument("-e", "--end", type=int,
                     help="the last second to process (excluded)", default=2147483646)
 parser.add_argument("-b", "--begin", type=int,
