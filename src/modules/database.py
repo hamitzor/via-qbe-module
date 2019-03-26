@@ -126,7 +126,7 @@ class Database(object):
 
         sql = ("""INSERT INTO Videos
             (Title, Length, Format, Name, Size,
-            Content, FPS, TotalFrame, Width, Height)
+            Path, FPS, TotalFrame, Width, Height)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""")
 
         curr.execute(sql, data)

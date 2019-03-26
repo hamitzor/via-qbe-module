@@ -3,13 +3,12 @@ if __name__ == "__main__":
     import time
     start_time = time.time() * 1000
 
-    from modules import args, stdout, video, feature as feature_module, filesystem
+    from modules import args, stdout, video, feature as feature_module
     from modules.database import database
     import cv2
     import numpy as np
     import ujson
     import json
-    import os
 
     parser = args.parser
 
@@ -30,7 +29,7 @@ if __name__ == "__main__":
     video_meta = database.get_video(args.video_id)
 
     video_format = video_meta[4]
-    video_blob = video_meta[7]
+    video_path = video_meta[7]
     video_fps = video_meta[8]
     video_total_frame = video_meta[9]
 
@@ -41,14 +40,10 @@ if __name__ == "__main__":
     query_features = feature_module.extract(query_image)
 
     video_cap_display = None
-    temp_file_path = None
 
     if args.display:
-        # read video blob and write into filesystem
-        temp_file_path = filesystem.write_base64(
-            video_blob, video_format)
         # read video for display purposes
-        video_cap_display = cv2.VideoCapture(temp_file_path)
+        video_cap_display = cv2.VideoCapture(video_path)
 
     # list that holds matches
     find = []
@@ -85,8 +80,9 @@ if __name__ == "__main__":
                     query_features[0], feature_set[0], good, query_image)
 
                 # save frame no and coordinates
+                # @TODO extract minimum and maximum coordinates and return them instead.
                 find.append(
-                    {"frame_no": frame_no, "corners": (pts[0][0].tolist(), pts[1][0].tolist(), pts[2][0].tolist(), pts[3][0].tolist())})
+                    {"frame_no": frame_no, "corners": [pts[i][0].astype(int).tolist() for i in range(4)]})
 
                 if args.display:
                     # skip video file to the frame that match was found
@@ -132,7 +128,5 @@ if __name__ == "__main__":
             print "\n"
         print json.dumps(find, indent=3)
 
-    if args.display:
-        os.remove(temp_file_path)
     stdout.passed_time(start_time, "Finished in")
     exit(0)

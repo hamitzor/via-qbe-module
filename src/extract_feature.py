@@ -3,10 +3,9 @@ if __name__ == "__main__":
     import time
     start_time = time.time() * 1000
 
-    from modules import args, stdout, video, feature, filesystem
+    from modules import args, stdout, video, feature
     from modules.database import database
     import cv2
-    import os
 
     parser = args.parser
 
@@ -19,13 +18,12 @@ if __name__ == "__main__":
 
     video_meta = database.get_video(args.video_id)
     video_format = video_meta[4]
-    video_blob = video_meta[7]
+    video_path = video_meta[7]
     video_fps = video_meta[8]
     video_total_frame = video_meta[9]
 
     # read video file to be used in video.apply function
-    temp_file_path = filesystem.write_base64(video_blob, video_format)
-    video_cap = cv2.VideoCapture(temp_file_path)
+    video_cap = cv2.VideoCapture(video_path)
 
     def apply_operation(frame_no, frame):
         """Extract features from frame and insert. This function will be passed to video.apply as operation argument"""
@@ -56,6 +54,5 @@ if __name__ == "__main__":
     # call video.apply with specified video file, specified parameters and a function named apply_operation uses database.insert_feature and feature.extract.
     video.apply(video_cap, video_total_frame, video_fps, **apply_params)
 
-    os.remove(temp_file_path)
     stdout.passed_time(start_time, "Finished in")
     exit(0)

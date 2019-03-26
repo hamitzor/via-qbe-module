@@ -5,7 +5,6 @@ if __name__ == "__main__":
     import cv2
     import time
     from os import path
-    import base64
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -19,7 +18,7 @@ if __name__ == "__main__":
     stdout = stdout.Stdout(False)
     start_time = time.time() * 1000
     stdout.write("Inserting video...")
-    video_file = args.video_file
+    video_file = path.abspath(args.video_file)
 
     if not path.isfile(video_file):
         stdout.write("%s is not a file" % video_file)
@@ -39,17 +38,13 @@ if __name__ == "__main__":
     extension = path.splitext(name)[1]
     size = path.getsize(video_file)
 
-    with open(video_file) as file:
-        content = file.read()
-        encoded_content = base64.b64encode(content)
-
     data = (
         title,
         length,
         extension,
         name,
         size,
-        encoded_content,
+        video_file,
         fps,
         total_frame,
         width,
