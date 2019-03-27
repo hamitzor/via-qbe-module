@@ -79,10 +79,17 @@ if __name__ == "__main__":
                 pts, mask = feature_module.get_homography_points(
                     query_features[0], feature_set[0], good, query_image)
 
-                # save frame no and coordinates
-                # @TODO extract minimum and maximum coordinates and return them instead.
+                x_coordinates = [pts[i][0][0] for i in range(4)]
+                y_coordinates = [pts[i][0][1] for i in range(4)]
+
+                top_left = [int(np.amin(x_coordinates)),
+                            int(np.amin(y_coordinates))]
+                bottom_right = [int(np.amax(x_coordinates)),
+                                int(np.amax(y_coordinates))]
+
+                # save frame no and top left and right bottom points
                 find.append(
-                    {"frame_no": frame_no, "corners": [pts[i][0].astype(int).tolist() for i in range(4)]})
+                    {"frame_no": int(frame_no), "boundary": {"top_left": top_left, "bottom_right": bottom_right}})
 
                 if args.display:
                     # skip video file to the frame that match was found
@@ -126,7 +133,7 @@ if __name__ == "__main__":
     if not args.display:
         if not args.api:
             print "\n"
-        print json.dumps(find, indent=3)
+        print json.dumps(find, indent=4)
 
     stdout.passed_time(start_time, "Finished in")
     exit(0)
