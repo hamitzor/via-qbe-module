@@ -24,6 +24,14 @@ if __name__ == "__main__":
     # load command line arguments
     args = parser.parse_args()
 
+    args_min = args.min
+
+    if args_min < 0.1:
+        args_min = 0.1
+
+    if args_min > 1.0:
+        args_min = 1.0
+
     stdout = stdout.Stdout(args.api or args.quiet)
 
     video_meta = database.get_video(args.video_id)
@@ -75,7 +83,7 @@ if __name__ == "__main__":
             good = feature_module.match(query_features[1], feature_set[1])
 
             # if number of good matches is greater than specified percentage of total number of features consider them as real match
-            if len(good) > int(len(query_features[0]) * args.min):
+            if len(good) > int(len(query_features[0]) * args_min):
                 pts, mask = feature_module.get_homography_points(
                     query_features[0], feature_set[0], good, query_image)
 
