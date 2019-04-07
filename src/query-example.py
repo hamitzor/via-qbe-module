@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "example_file", help="Example image file to search inside the video")
     parser.add_argument("-m", "--min", type=float,
-                        help="minimum good features to reckon as match percentage: [0,1]", default=0.33)
+                        help="minimum good features to reckon as match percentage: [0,1]", default=0.1)
     parser.add_argument("-w", "--wait", type=float,
                         help="duration of showing successful matches in seconds", default=1.0)
 
