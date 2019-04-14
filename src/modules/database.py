@@ -1,6 +1,5 @@
 """File holds Database class."""
 import mysql.connector
-from modules import config as default_config
 
 
 class Database(object):
@@ -18,11 +17,12 @@ class Database(object):
           mysql.connection.MySQLConnection -- connection object
 
         """
+
         self.connection = mysql.connector.connect(
-            host=self.config.db_host,
-            user=self.config.db_user,
-            passwd=self.config.db_password,
-            database=self.config.db_database
+            host=self.config["db_host"],
+            user=self.config["db_username"],
+            passwd=self.config["db_password"],
+            database=self.config["db_name"]
         )
 
     def disconnect(self):
@@ -79,11 +79,11 @@ class Database(object):
         curr = self.connection.cursor()
 
         sql = ("""SELECT KeyPointPtX, KeyPointPtY, Descriptor, FrameNo
-                FROM VideoFeatures
+                FROM VideoFeatures VF
                 WHERE
-                (VideoFeatures.FrameNo = %s)
+                (VF.FrameNo = %s)
                 AND
-                (VideoFeatures.VideoFeatureId IN (SELECT VideoFeatureId from VideoVideoFeature WHERE VideoVideoFeature.VideoId = %s)) """)
+                (VF.VideoFeatureId IN (SELECT VideoFeatureId from VideoVideoFeature WHERE VideoVideoFeature.VideoId = %s)) """)
         sql_data = (frame_no, video_id)
 
         curr.execute(sql, sql_data)
@@ -106,8 +106,8 @@ class Database(object):
         curr = self.connection.cursor()
 
         sql = """SELECT %s
-                FROM Videos
-                WHERE Videos.VideoId = %s""" % (field, video_id)
+                FROM Videos V
+                WHERE V.VideoId = %s""" % (field, video_id)
 
         curr.execute(sql)
         video = curr.fetchone()
@@ -133,5 +133,56 @@ class Database(object):
         self.connection.commit()
         self.disconnect()
 
+    def update_video_process_progress(self, video_id, value):
+        """Insert specified data into Videos table.
 
-database = Database(default_config)
+          Arguments:
+            value {int} -- New process progress value
+
+        """
+        self.connect()
+        curr = self.connection.cursor()
+
+        sql = """UPDATE Videos
+            SET search_process_progress = %s
+            WHERE videoid = %s""" % (value, video_id)
+
+        curr.execute(sql)
+        self.connection.commit()
+        self.disconnect()
+
+    def update_search_operation_progress(self, id, progress):
+        """Insert specified data into Videos table.
+
+            Arguments:
+              value {int} -- New process percentage value
+
+          """
+        self.connect()
+        curr = self.connection.cursor()
+
+        sql = """UPDATE search_operations
+            SET progress = %s
+            WHERE search_operation_id = %s""" % (progress, id)
+
+        curr.execute(sql)
+        self.connection.commit()
+        self.disconnect()
+
+    def finalize_search_operation(self, id, result):
+        """Insert specified data into Videos table.
+
+            Arguments:
+              value {int} -- New process percentage value
+
+          """
+        self.connect()
+        curr = self.connection.cursor()
+
+        sql = """UPDATE search_operations
+            SET end_time = NOW(), result = %s
+            WHERE search_operation_id = %s"""
+
+        curr.execute(sql, ((result, id)))
+        self.connection.commit()
+        self.disconnect()

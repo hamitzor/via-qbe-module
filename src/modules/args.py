@@ -4,6 +4,14 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
+parser.add_argument("-H", "--db-host", type=str,
+                    help="host of database server")
+parser.add_argument("-U", "--db-username", type=str,
+                    help="username of database")
+parser.add_argument("-P", "--db-password", type=str,
+                    help="password of database")
+parser.add_argument("-N", "--db-name", type=str,
+                    help="database name")
 parser.add_argument("-a", "--api", action="store_true",
                     help="output for api usage")
 parser.add_argument("-q", "--quiet", action="store_true",

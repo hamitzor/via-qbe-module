@@ -4,18 +4,34 @@ if __name__ == "__main__":
     start_time = time.time() * 1000
 
     from modules import args, stdout, video, feature
-    from modules.database import database
+    from modules.database import Database
     import cv2
+    from websocket import create_connection
+    import json
 
     parser = args.parser
 
     parser.add_argument(
         "video_id", help="VideoId value of the tupple that is going to be used for feature extraction")
 
+    parser.add_argument("-R", "--info-web-socket-route", type=str,
+                        help="route of WebSocket to be used in informing purposes")
+
+    parser.add_argument("-W", "--worker-id", type=str,
+                        help="worker id")
+
     args = parser.parse_args()
 
     stdout = stdout.Stdout(args.api or args.quiet)
 
+    database_config = dict(
+        db_host=args.db_host,
+        db_username=args.db_username,
+        db_password=args.db_password,
+        db_name=args.db_name
+    )
+
+    database = Database(database_config)
     video_meta = database.get_video(args.video_id)
     video_format = video_meta[4]
     video_path = video_meta[7]
@@ -41,6 +57,11 @@ if __name__ == "__main__":
                 ))
             database.insert_features(args.video_id, data)
 
+    ws = create_connection("ws://localhost:3000")
+
+    def info_function(value):
+        database.update_video_process_progress(args.video_id, value)
+
     stdout.write("Extracting features...")
 
     apply_params = dict(
@@ -48,11 +69,12 @@ if __name__ == "__main__":
         operation=apply_operation,
         begin=args.begin,
         end=args.end,
-        info_function=stdout.progres_info
+        info_function=info_function
     )
 
     # call video.apply with specified video file, specified parameters and a function named apply_operation uses database.insert_feature and feature.extract.
     video.apply(video_cap, video_total_frame, video_fps, **apply_params)
 
+    ws.close()
     stdout.passed_time(start_time, "Finished in")
     exit(0)

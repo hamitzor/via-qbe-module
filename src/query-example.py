@@ -4,7 +4,7 @@ if __name__ == "__main__":
     start_time = time.time() * 1000
 
     from modules import args, stdout, video, feature as feature_module
-    from modules.database import database
+    from modules.database import Database
     import cv2
     import numpy as np
     import ujson
@@ -20,6 +20,8 @@ if __name__ == "__main__":
                         help="minimum good features to reckon as match percentage: [0,1]", default=0.1)
     parser.add_argument("-w", "--wait", type=float,
                         help="duration of showing successful matches in seconds", default=1.0)
+    parser.add_argument("-I", "--search-operation-id", type=int,
+                        help="search operation id in database")
 
     # load command line arguments
     args = parser.parse_args()
@@ -33,6 +35,15 @@ if __name__ == "__main__":
         args_min = 1.0
 
     stdout = stdout.Stdout(args.api or args.quiet)
+
+    database_config = dict(
+        db_host=args.db_host,
+        db_username=args.db_username,
+        db_password=args.db_password,
+        db_name=args.db_name
+    )
+
+    database = Database(database_config)
 
     video_meta = database.get_video(args.video_id)
 
@@ -128,15 +139,24 @@ if __name__ == "__main__":
     stdout.write("Searching %s in video with id = %s" %
                  (args.example_file, args.video_id))
 
+    def info_function(value):
+        if args.search_operation_id:
+            database.update_search_operation_progress(
+                args.search_operation_id, value)
+
     apply_params = dict(
         operation=find_matches,
         skip_amount=args.skip,
         begin=args.begin,
         end=args.end,
-        info_function=stdout.progres_info
+        info_function=info_function
     )
     # call video.apply with specified video file with specified parameters
     video.apply(None, video_total_frame, video_fps, **apply_params)
+
+    if args.search_operation_id:
+        result = json.dumps(find, indent=4)
+        database.finalize_search_operation(args.search_operation_id, result)
 
     if not args.display:
         if not args.api:
