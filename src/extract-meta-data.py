@@ -30,14 +30,10 @@ if __name__ == "__main__":
     video_cap.release()
 
     length = (total_frame/fps)*1000
-    name = path.basename(video_file)
-    extension = path.splitext(name)[1]
     size = path.getsize(video_file)
 
     data = dict(
         lenght=length,
-        format=extension,
-        name=name,
         size=size,
         fps=fps,
         total_frame=total_frame,
