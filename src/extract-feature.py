@@ -6,16 +6,12 @@ if __name__ == "__main__":
     from modules import args, stdout, video, feature
     from modules.database import Database
     import cv2
-    from websocket import create_connection
     import json
 
     parser = args.parser
 
     parser.add_argument(
         "video_id", help="VideoId value of the tupple that is going to be used for feature extraction")
-
-    parser.add_argument("-R", "--info-web-socket-route", type=str,
-                        help="route of WebSocket to be used in informing purposes")
 
     parser.add_argument("-W", "--worker-id", type=str,
                         help="worker id")
@@ -57,8 +53,6 @@ if __name__ == "__main__":
                 ))
             database.insert_features(args.video_id, data)
 
-    ws = create_connection("ws://localhost:3000")
-
     def info_function(value):
         database.update_video_process_progress(args.video_id, value)
 
@@ -75,6 +69,5 @@ if __name__ == "__main__":
     # call video.apply with specified video file, specified parameters and a function named apply_operation uses database.insert_feature and feature.extract.
     video.apply(video_cap, video_total_frame, video_fps, **apply_params)
 
-    ws.close()
     stdout.passed_time(start_time, "Finished in")
     exit(0)
