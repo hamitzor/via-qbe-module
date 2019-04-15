@@ -1,23 +1,20 @@
-"""Script to add video to database."""
+"""Extract metadata from video."""
 if __name__ == "__main__":
     from modules import args, stdout
-    from modules.database import database
     import cv2
     import time
     from os import path
     import argparse
+    import json
 
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
         "video_file", help="File to be inserted")
-    parser.add_argument(
-        "video_title", help="Title of the file")
 
     args = parser.parse_args()
     stdout = stdout.Stdout(False)
     start_time = time.time() * 1000
-    stdout.write("Inserting video...")
     video_file = path.abspath(args.video_file)
 
     if not path.isfile(video_file):
@@ -32,27 +29,22 @@ if __name__ == "__main__":
     height = int(video_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     video_cap.release()
 
-    title = args.video_title
     length = (total_frame/fps)*1000
     name = path.basename(video_file)
     extension = path.splitext(name)[1]
     size = path.getsize(video_file)
 
-    data = (
-        title,
-        length,
-        extension,
-        name,
-        size,
-        video_file,
-        fps,
-        total_frame,
-        width,
-        height
+    data = dict(
+        lenght=length,
+        format=extension,
+        name=name,
+        size=size,
+        fps=fps,
+        total_frame=total_frame,
+        width=width,
+        height=height
     )
 
-    database.insert_video(data)
-
-    stdout.passed_time(start_time, "Finished in")
+    print json.dumps(data, indent=2)
 
     exit(0)
