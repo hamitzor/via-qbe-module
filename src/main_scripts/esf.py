@@ -3,19 +3,18 @@ if __name__ == "__main__":
     import time
     start_time = time.time() * 1000
 
-    from modules import args, stdout, video, feature
-    from modules.database import Database
+    from ..util import load_cli_args, stdout, operation_applier
+    from ..core import feature
+    from ..models import feature_model, video_model
     import cv2
     import json
+    from websocket import create_connection
 
-    parser = args.parser
+    parser = load_cli_args.parser
 
-    parser.add_argument(
-        "video_id", help="VideoId value of the tupple that is going to be used for feature extraction")
-
-    parser.add_argument("-W", "--worker-id", type=str,
-                        help="worker id")
-
+    parser.add_argument("video_id",
+                        help="video_id of the video that is going to be used for feature extraction")
+    
     args = parser.parse_args()
 
     stdout = stdout.Stdout(args.api or args.quiet)
@@ -27,12 +26,13 @@ if __name__ == "__main__":
         db_name=args.db_name
     )
 
-    database = Database(database_config)
-    video_meta = database.get_video(args.video_id)
-    video_format = video_meta[4]
-    video_path = video_meta[7]
-    video_fps = video_meta[8]
-    video_total_frame = video_meta[9]
+    video_model = video_model.VideoModel(database_config)
+    feature_model = feature_model.FeatureModel(database_config)
+
+    video_meta = video_model.get(args.video_id)
+    video_path = video_meta["path"]
+    video_fps = video_meta["fps"]
+    video_frame_count = video_meta["frame_count"]
 
     # read video file to be used in video.apply function
     video_cap = cv2.VideoCapture(video_path)
@@ -46,15 +46,12 @@ if __name__ == "__main__":
             # Iterate over features format and append to data
             for i in range(len(features[0])):
                 data.append((
-                    frame_no,
                     features[0][i].pt[0],
                     features[0][i].pt[1],
-                    str(features[1][i].astype(int).tolist()).replace(" ", "")
+                    str(features[1][i].astype(int).tolist()).replace(" ", ""),
+                    frame_no
                 ))
-            database.insert_features(args.video_id, data)
-
-    def info_function(value):
-        database.update_video_process_progress(args.video_id, value)
+            feature_model.insert_multiple(args.video_id, data)
 
     stdout.write("Extracting features...")
 
@@ -63,11 +60,14 @@ if __name__ == "__main__":
         operation=apply_operation,
         begin=args.begin,
         end=args.end,
-        info_function=info_function
+        info_function=stdout.progres_info
     )
 
-    # call video.apply with specified video file, specified parameters and a function named apply_operation uses database.insert_feature and feature.extract.
-    video.apply(video_cap, video_total_frame, video_fps, **apply_params)
+    # call operation_applier.apply with specified video file, specified parameters and a function named apply_operation uses database.insert_feature and feature.extract.
+    operation_applier.apply(video_cap,
+                            video_frame_count,
+                            video_fps,
+                            **apply_params)
 
     stdout.passed_time(start_time, "Finished in")
     exit(0)

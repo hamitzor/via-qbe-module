@@ -1,4 +1,4 @@
-media-source
-media-source/*
+media_source
+media_source/*
 *.pyc
 src/**/config.py
