@@ -26,8 +26,8 @@ class FeatureModel(Model):
                 (frame_no = %s)
                 AND
                 (search_feature_id IN 
-                (SELECT search_feature_id from video_search_features 
-                WHERE video_search_features.video_id = %s)) """)
+                (SELECT search_feature_id from video_search_feature 
+                WHERE video_search_feature.video_id = %s)) """)
 
         sql_data = (frame_no, video_id)
 
@@ -55,7 +55,7 @@ class FeatureModel(Model):
         first_row_id = curr.lastrowid
         last_row_id = first_row_id + curr.rowcount - 1
 
-        sql = ("""INSERT INTO video_search_features
+        sql = ("""INSERT INTO video_search_feature
                 (search_feature_id, video_id)
                 VALUES (%s, %s)""")
 
