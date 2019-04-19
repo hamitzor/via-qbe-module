@@ -40,6 +40,8 @@ def apply(video_cap, total_frame, fps, skip_amount=5, operation=lambda x, y: Non
 
     iteration_count = 0
 
+    temp_results = []
+
     while True:
         # if it has reached the specified ending second or last frame, break.
 
@@ -50,18 +52,22 @@ def apply(video_cap, total_frame, fps, skip_amount=5, operation=lambda x, y: Non
             video_cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame_no)
             _, frame = video_cap.read()
 
-        operation(current_frame_no, frame)
+        result = operation(current_frame_no, frame)
+        if result is not None:
+            temp_results.append(result)
 
         # call info function with progress percentage
-        if iteration_count % (info_skip_amount + 1) is 0:
+        if (iteration_count % (info_skip_amount + 1) is 0):
             percentage = round((current_frame_no - begin*fps) /
                                (end*fps - begin*fps), 2) * 100
-
-            info_function(percentage)
+            if percentage > 2:
+                percentage = percentage - 1
+            info_function(percentage, temp_results)
+            temp_results = []
 
         current_frame_no = current_frame_no + skip_amount + 1
         iteration_count = iteration_count + 1
 
-    info_function(100)
+    info_function(100, [])
     if video_cap is not None:
         video_cap.release()

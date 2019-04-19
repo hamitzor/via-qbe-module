@@ -4,14 +4,27 @@ if __name__ == "__main__":
     start_time = time.time() * 1000
 
     from ..core import feature as feature_module
-    from ..util import load_cli_args, operation_applier, stdout
-    from ..models import video_model, feature_model, operation_model
+    from ..util import load_cli_args, operation_applier, logger
+    from ..models import video_model, feature_model
     import cv2
     import numpy as np
     import ujson
     import json
     import websocket
     from math import ceil
+    import sys
+    import traceback
+    import signal
+
+    def sigusr1_handler(signum, frame):
+        sys.exit(20)
+
+    signal.signal(signal.SIGUSR1, sigusr1_handler)
+
+    def sigusr2_handler(signum, frame):
+        sys.exit(21)
+
+    signal.signal(signal.SIGUSR2, sigusr2_handler)
 
     parser = load_cli_args.parser
 
@@ -53,7 +66,7 @@ if __name__ == "__main__":
 
     parser.add_argument("-OI",
                         "--operation-id",
-                        type=int,
+                        type=str,
                         help="operation id to be used in informing purposes")
 
     # load command line arguments
@@ -72,8 +85,6 @@ if __name__ == "__main__":
         ws_host = """ws://%s:%s""" % (args.ws_host, args.ws_port)
         ws = websocket.create_connection(ws_host)
 
-    stdout = stdout.Stdout(args.api or args.quiet)
-
     database_config = dict(
         db_host=args.db_host,
         db_username=args.db_username,
@@ -83,12 +94,8 @@ if __name__ == "__main__":
 
     video_model = video_model.VideoModel(database_config)
     feature_model = feature_model.FeatureModel(database_config)
-    operation_model = operation_model.OperationModel(database_config)
 
-    operation = operation_model.get(args.operation_id)
-
-    if operation["start_time"]:
-        raise Exception("This operation had already started to execute")
+    logger = logger.Logger("/var/log/via/qbe")
 
     video_meta_data = video_model.get(args.video_id)
     video_path = video_meta_data["path"]
@@ -101,10 +108,8 @@ if __name__ == "__main__":
     # extract features from query image
     query_features = feature_module.extract(query_image)
 
-    # list that holds matches
-    find = []
-
     def find_matches(frame_no, _):
+        result = None
         # get features in specied frame_no
         features = feature_model.get_multiple(args.video_id, frame_no)
         if features:
@@ -147,23 +152,21 @@ if __name__ == "__main__":
                                 int(np.amin(y_coordinates))]
 
                 # save frame no and top left and right bottom points
-                find.append(dict(frameNo=int(frame_no),
-                                 boundary=dict(left=top_left[0],
-                                               top=top_left[1],
-                                               width=(
-                                                   bottom_right[0] - top_left[0]),
-                                               height=top_left[1] - bottom_right[1])))
+                result = dict(frameNo=int(frame_no),
+                              boundary=dict(left=top_left[0],
+                                            top=top_left[1],
+                                            width=(
+                                  bottom_right[0] - top_left[0]),
+                    height=top_left[1] - bottom_right[1]))
+        return result
 
-    stdout.write("Searching %s in video with id = %s" %
-                 (args.example_file, args.video_id))
-
-    watch_id = (operation_model.get(args.operation_id))["watch_id"]
-
-    def info_function(value):
+    def info_function(value, results):
         if use_ws:
+            logger.info(json.dumps(results, indent=2))
             data = dict(route=args.ws_route,
-                        data=dict(id=watch_id,
-                                  value=ceil(value)))
+                        data=dict(operationId=args.operation_id,
+                                  progress=ceil(value),
+                                  results=results))
             ws.send(json.dumps(data, indent=2))
 
     apply_params = dict(
@@ -174,25 +177,11 @@ if __name__ == "__main__":
         info_function=info_function
     )
 
-
-
-    operation_model.update(args.operation_id, dict(
-        start_time=time.strftime("%Y-%m-%d %H:%M:%S")))
     # call operation_applier.apply with specified video file with specified parameters
-    operation_applier.apply(None, video_frame_count, video_fps, **apply_params)
-
-    if args.operation_id:
-        result = json.dumps(find, indent=4)
-        operation_model.update(args.operation_id,
-                               dict(end_time=time.strftime("%Y-%m-%d %H:%M:%S"),
-                                    result=result))
+    operation_applier.apply(None, video_frame_count,
+                            video_fps, **apply_params)
 
     if use_ws:
         ws.close()
 
-    if not args.api:
-        print "\n"
-    print json.dumps(find, indent=4)
-
-    stdout.passed_time(start_time, "Finished in")
-    exit(0)
+    sys.exit(0)
