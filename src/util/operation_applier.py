@@ -1,7 +1,6 @@
 """Module contains a method for applying operations to videoso"""
 
 import cv2
-from .logger import Logger
 
 
 def apply(video_cap, total_frame, fps, skip_amount=5, operation=lambda x, y: None, begin=0, end=None, info_function=lambda x: None, info_skip_amount=3):
@@ -24,7 +23,6 @@ def apply(video_cap, total_frame, fps, skip_amount=5, operation=lambda x, y: Non
       skip_amount {int} -- Number of iterations to skip before calling info function again
     """
 
-    logger = Logger("/var/log/via/qbe")
 
     if begin > total_frame/fps:
         begin = total_frame/fps
