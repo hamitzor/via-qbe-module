@@ -4,7 +4,7 @@ if __name__ == "__main__":
     start_time = time.time() * 1000
 
     from ..core import feature as feature_module
-    from ..util import load_cli_args, operation_applier, logger
+    from ..util import load_cli_args, operation_applier
     from ..models import video_model, feature_model
     import cv2
     import numpy as np
@@ -95,7 +95,6 @@ if __name__ == "__main__":
     video_model = video_model.VideoModel(database_config)
     feature_model = feature_model.FeatureModel(database_config)
 
-    logger = logger.Logger("/var/log/via/qbe")
 
     video_meta_data = video_model.get(args.video_id)
     video_path = video_meta_data["path"]
@@ -162,7 +161,6 @@ if __name__ == "__main__":
 
     def info_function(value, results):
         if use_ws:
-            logger.info(json.dumps(results, indent=2))
             data = dict(route=args.ws_route,
                         data=dict(operationId=args.operation_id,
                                   progress=ceil(value),
