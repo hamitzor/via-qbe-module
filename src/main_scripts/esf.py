@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     parser.add_argument("video_id",
                         help="video_id of the video that is going to be used for feature extraction")
-    
+
     args = parser.parse_args()
 
     stdout = stdout.Stdout(args.api or args.quiet)
@@ -53,6 +53,9 @@ if __name__ == "__main__":
                 ))
             feature_model.insert_multiple(args.video_id, data)
 
+    def info_function(progress, results):
+        stdout.progres_info(progress)
+
     stdout.write("Extracting features...")
 
     apply_params = dict(
@@ -60,7 +63,7 @@ if __name__ == "__main__":
         operation=apply_operation,
         begin=args.begin,
         end=args.end,
-        info_function=stdout.progres_info
+        info_function=info_function
     )
 
     # call operation_applier.apply with specified video file, specified parameters and a function named apply_operation uses database.insert_feature and feature.extract.

@@ -21,13 +21,13 @@ class FeatureModel(Model):
         curr = self.connection.cursor()
 
         sql = ("""SELECT keypoint_pt_x, keypoint_pt_y, descriptor, frame_no
-                FROM search_features
+                FROM qbe_features
                 WHERE
                 (frame_no = %s)
                 AND
-                (search_feature_id IN 
-                (SELECT search_feature_id from video_search_feature 
-                WHERE video_search_feature.video_id = %s)) """)
+                (qbe_feature_id IN 
+                (SELECT qbe_feature_id from video_qbe_feature 
+                WHERE video_qbe_feature.video_id = %s)) """)
 
         sql_data = (frame_no, video_id)
 
@@ -47,7 +47,7 @@ class FeatureModel(Model):
         self.connect()
         curr = self.connection.cursor()
 
-        sql = ("""INSERT INTO search_features
+        sql = ("""INSERT INTO qbe_features
                 (keypoint_pt_x, keypoint_pt_y, descriptor, frame_no)
                 VALUES (%s, %s, %s, %s)""")
 
@@ -55,8 +55,8 @@ class FeatureModel(Model):
         first_row_id = curr.lastrowid
         last_row_id = first_row_id + curr.rowcount - 1
 
-        sql = ("""INSERT INTO video_search_feature
-                (search_feature_id, video_id)
+        sql = ("""INSERT INTO video_qbe_feature
+                (qbe_feature_id, video_id)
                 VALUES (%s, %s)""")
 
         sql_data = []

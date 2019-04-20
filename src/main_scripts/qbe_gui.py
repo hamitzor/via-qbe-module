@@ -14,11 +14,11 @@ if __name__ == "__main__":
 
     parser.add_argument("video_id",
                         type=str,
-                        help="id of the video file which example will be searched in")
+                        help="id of the video file which example will be queried in")
 
     parser.add_argument("example_file_path",
                         type=str,
-                        help="Example image file to be searched in the video")
+                        help="Example image file to be queried in the video")
 
     parser.add_argument("-m",
                         "--min",
@@ -134,7 +134,7 @@ if __name__ == "__main__":
                 cv2.waitKey(int(args.wait * 1000))
                 cv2.destroyAllWindows()
 
-    stdout.write("Searching %s in video with id = %s" %
+    stdout.write("Querying %s in video with id = %s" %
                  (args.example_file_path, args.video_id))
 
     apply_params = dict(

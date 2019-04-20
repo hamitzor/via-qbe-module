@@ -30,10 +30,10 @@ if __name__ == "__main__":
 
     parser.add_argument("video_id",
                         type=int,
-                        help="VideoId of the video that example will search inside")
+                        help="VideoId of the video that example will in inside")
 
     parser.add_argument("example_file",
-                        help="Example image file to search inside the video")
+                        help="Example image file to query in the video")
 
     parser.add_argument("-m",
                         "--min",
