@@ -20,9 +20,8 @@ def apply(video_cap, total_frame, fps, skip_amount=5, operation=lambda x, y: Non
       begin {int} -- First second to process (default: {0})
       end {int} -- Last second to process(Included) (default: {2147483646})
       info_function {:obj:`function`} -- The function to be used for inform purposes. An integer between 0 and 100 that specifies progress is supplied to this function (default: {lambda x, y: None})
-      skip_amount {int} -- Number of iterations to skip before calling info function again
+      info_skip_amount {int} -- Number of iterations to skip before calling info function again
     """
-
 
     if begin > total_frame/fps:
         begin = total_frame/fps

@@ -36,7 +36,7 @@ parser.add_argument("-q",
 
 parser.add_argument("-s",
                     "--skip",
-                    type=float,
+                    type=int,
                     help="number of frames to skip before processing next frame", default=5)
 
 parser.add_argument("-b",
