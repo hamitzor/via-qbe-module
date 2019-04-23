@@ -95,7 +95,6 @@ if __name__ == "__main__":
     video_model = video_model.VideoModel(database_config)
     feature_model = feature_model.FeatureModel(database_config)
 
-
     video_meta_data = video_model.get(args.video_id)
     video_path = video_meta_data["path"]
     video_fps = video_meta_data["fps"]
@@ -156,7 +155,7 @@ if __name__ == "__main__":
                                             top=top_left[1],
                                             width=(
                                   bottom_right[0] - top_left[0]),
-                    height=top_left[1] - bottom_right[1]))
+                    height=bottom_right[1] - top_left[1]))
         return result
 
     def info_function(value, results):
