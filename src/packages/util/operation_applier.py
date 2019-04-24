@@ -1,6 +1,7 @@
 """Module contains a method for applying operations to videoso"""
 
 import cv2
+import time
 
 
 def apply(video_cap, total_frame, fps, skip_amount=5, operation=lambda x, y: None, begin=0, end=None, info_function=lambda x: None, info_skip_amount=3):
@@ -65,6 +66,7 @@ def apply(video_cap, total_frame, fps, skip_amount=5, operation=lambda x, y: Non
         current_frame_no = current_frame_no + skip_amount + 1
         iteration_count = iteration_count + 1
 
+    time.sleep(0.5)
     info_function(100, [])
     if video_cap is not None:
         video_cap.release()
