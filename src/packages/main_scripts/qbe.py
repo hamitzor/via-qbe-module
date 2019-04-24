@@ -10,21 +10,8 @@ if __name__ == "__main__":
     import numpy as np
     import ujson
     import json
-    import websocket
     from math import ceil
     import sys
-    import traceback
-    import signal
-
-    def sigusr1_handler(signum, frame):
-        sys.exit(20)
-
-    signal.signal(signal.SIGUSR1, sigusr1_handler)
-
-    def sigusr2_handler(signum, frame):
-        sys.exit(21)
-
-    signal.signal(signal.SIGUSR2, sigusr2_handler)
 
     parser = load_cli_args.parser
 
@@ -41,34 +28,6 @@ if __name__ == "__main__":
                         help="minimum good features to reckon as match percentage: [0,1]",
                         default=0.1)
 
-    parser.add_argument("-W",
-                        "--websocket",
-                        action="store_true",
-                        help="use websocket to inform")
-
-    parser.add_argument("-WH",
-                        "--ws-host",
-                        type=str,
-                        help="web socket host to be used in informing",
-                        default="localhost")
-
-    parser.add_argument("-WP",
-                        "--ws-port",
-                        type=int,
-                        help="web socket port to be used in informing",
-                        default=3000)
-
-    parser.add_argument("-WR",
-                        "--ws-route",
-                        type=str,
-                        help="web socket route to be used in informing",
-                        default="update-qbe-progress")
-
-    parser.add_argument("-OI",
-                        "--operation-id",
-                        type=str,
-                        help="operation id to be used in informing purposes")
-
     # load command line arguments
     args = parser.parse_args()
 
@@ -79,12 +38,6 @@ if __name__ == "__main__":
     if min_good > 1.0:
         min_good = 1.0
 
-    use_ws = args.websocket
-
-    if use_ws:
-        ws_host = """ws://%s:%s""" % (args.ws_host, args.ws_port)
-        ws = websocket.create_connection(ws_host)
-
     database_config = dict(
         db_host=args.db_host,
         db_username=args.db_username,
@@ -94,11 +47,10 @@ if __name__ == "__main__":
 
     video_model = video_model.VideoModel(database_config)
     feature_model = feature_model.FeatureModel(database_config)
-
-    video_meta_data = video_model.get(args.video_id)
-    video_path = video_meta_data["path"]
-    video_fps = video_meta_data["fps"]
-    video_frame_count = video_meta_data["frame_count"]
+    video_info = video_model.get(args.video_id)
+    video_path = video_info["path"]
+    video_fps = video_info["fps"]
+    video_frame_count = video_info["frame_count"]
 
     # read query image
     query_image = cv2.imread(args.example_file, 0)
@@ -159,12 +111,10 @@ if __name__ == "__main__":
         return result
 
     def info_function(value, results):
-        if use_ws:
-            data = dict(route=args.ws_route,
-                        data=dict(operationId=args.operation_id,
-                                  progress=ceil(value),
-                                  results=results))
-            ws.send(json.dumps(data, indent=2))
+        data = dict(progress=ceil(value),
+                    results=results)
+        sys.stdout.write(json.dumps(data, indent=2))
+        sys.stdout.flush()
 
     apply_params = dict(
         operation=find_matches,
@@ -177,8 +127,5 @@ if __name__ == "__main__":
     # call operation_applier.apply with specified video file with specified parameters
     operation_applier.apply(None, video_frame_count,
                             video_fps, **apply_params)
-
-    if use_ws:
-        ws.close()
 
     sys.exit(0)
